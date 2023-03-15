@@ -13,8 +13,8 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
-hello <- function(x) {
-  x*4
+hitung <- function(x) {
+  x*10
 }
 
 
