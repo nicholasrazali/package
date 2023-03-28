@@ -1,5 +1,5 @@
 
-#' Creates counting
+#' Counting matrix
 #' @description
 #' `sum` returns the sum of all the values present in its arguments.
 #'
@@ -10,13 +10,38 @@
 #' first argument.
 #' @export
 #' @examples
-#' counting(10, 3)
-#' counting(20, 5)
+#' x <- matrix(1:4,2,2)
+#' y <- matrix(5:8,2,2)
+#' counting(x,y)
 #' @param x numeric variable
 #' @param y numeric variable
-counting <- function(x, y){
 
-  sum = x+y
-  min = x-y
-  return(list("sum" = sum, "minus" = min))
+
+counting <- function(x, y){
+  if(!is.matrix(x) || !is.matrix(y)){
+    stop("data must be in matrix")
+  }
+  nrow_x = nrow(x)
+  ncol_x = ncol(x)
+
+  nrow_y = nrow(y)
+  ncol_y = ncol(y)
+
+  check  = dim(x) == dim(y)
+
+  if(check[1] & check[2]){
+    sum = x+y
+    min = x-y
+  }
+  else{
+    sum = "cannot do sum because different dimension"
+    min = "cannot do minus because different dimension"
+  }
+
+  if(ncol_x == nrow_y){
+    multiply = x %*% y
+  }
+  else multiply = "cannot do multiplication"
+
+  return(list("sum" = sum, "minus" = min, "multiplication" = multiply))
 }
