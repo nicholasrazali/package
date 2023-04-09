@@ -28,7 +28,7 @@ invers_row_reduction <- function(x) {
   for (i in 1:n) {
     # Find the pivot row
     pivot_row <- i
-    if(augmented_mat[pivot_row,pivot_row] == 0){
+    if(augmented_mat[i,i] == 0){
       for (j in i:n) {
         if (abs(augmented_mat[j, i]) > abs(augmented_mat[pivot_row, i])) {
           pivot_row <- j
@@ -51,7 +51,7 @@ invers_row_reduction <- function(x) {
     }
     else augmented_mat[i, ] <- augmented_mat[i, ] / pivot
     if(pivot != 1){
-      cat("\nStep", step, ": baris ", i, " dibagi ", pivot,"\n")
+      cat("\nStep", step, ": baris ", i, " = baris ",i, " dibagi ", pivot,"\n")
       print(augmented_mat)
       step = step + 1
     }
@@ -60,7 +60,7 @@ invers_row_reduction <- function(x) {
         ratio <- augmented_mat[j, i] / augmented_mat[i, i]
         if(ratio == 0) next
         augmented_mat[j, ] <- augmented_mat[j, ] - ratio * augmented_mat[i, ]
-        cat("\nStep", step, ": baris ", j, "- ", ratio, "* baris ", i,"\n")
+        cat("\nStep", step," : baris ",j, " = ", -1*ratio, "* baris ", i, " + baris ", j, "\n")
         print(augmented_mat)
         step = step + 1
       }
