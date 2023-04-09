@@ -73,7 +73,7 @@ invers_row_reduction <- function(x) {
         ratio <- augmented_mat[i, j] / augmented_mat[j, j]
         if(ratio == 0) next
         augmented_mat[i, ] <- augmented_mat[i, ] - ratio * augmented_mat[j, ]
-        cat("\nStep", step," : baris ",j, " = ", -1*ratio, "* baris ", i, " + baris ", j, "\n")
+        cat("\nStep", step," : baris ",i, " = ", -1*ratio, "* baris ", j, " + baris ", i, "\n")
         print(augmented_mat)
         step = step + 1
       }

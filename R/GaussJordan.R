@@ -45,25 +45,35 @@ GaussJordan <- function(A, b) {
       }
     }
   }
-
   for (i in 1:n) {
     pivot <- augmented_mat[i, i]
     if (pivot == 0) {
       stop("tidak dapat diselesaikan")  # System is inconsistent
     }
     else augmented_mat[i, ] <- augmented_mat[i, ] / pivot
-
     if(pivot != 1){
       cat("\nStep", step, ": baris ", i, " = baris ",i, " dibagi ", pivot,"\n")
       print(augmented_mat)
       step = step + 1
     }
-    for (j in 1:n) {
+    for (j in i:n) {
       if (i != j) {
         ratio <- augmented_mat[j, i] / augmented_mat[i, i]
         if(ratio == 0) next
         augmented_mat[j, ] <- augmented_mat[j, ] - ratio * augmented_mat[i, ]
         cat("\nStep", step," : baris ",j, " = ", -1*ratio, "* baris ", i, " + baris ", j, "\n")
+        print(augmented_mat)
+        step = step + 1
+      }
+    }
+  }
+  for (i in (n-1):1) {
+    for (j in (i+1):n) {
+      if (i != j) {
+        ratio <- augmented_mat[i, j] / augmented_mat[j, j]
+        if(ratio == 0) next
+        augmented_mat[i, ] <- augmented_mat[i, ] - ratio * augmented_mat[j, ]
+        cat("\nStep", step," : baris ",i, " = ", -1*ratio, "* baris ", j, " + baris ", i, "\n")
         print(augmented_mat)
         step = step + 1
       }
