@@ -55,7 +55,7 @@ invers_row_reduction <- function(x) {
       print(augmented_mat)
       step = step + 1
     }
-    for (j in 1:n) {
+    for (j in i:n) {
       if (i != j) {
         ratio <- augmented_mat[j, i] / augmented_mat[i, i]
         if(ratio == 0) next
@@ -66,6 +66,20 @@ invers_row_reduction <- function(x) {
       }
     }
   }
+
+  for (i in (n-1):1) {
+    for (j in (i+1):n) {
+      if (i != j) {
+        ratio <- augmented_mat[i, j] / augmented_mat[j, j]
+        if(ratio == 0) next
+        augmented_mat[i, ] <- augmented_mat[i, ] - ratio * augmented_mat[j, ]
+        cat("\nStep", step," : baris ",j, " = ", -1*ratio, "* baris ", i, " + baris ", j, "\n")
+        print(augmented_mat)
+        step = step + 1
+      }
+    }
+  }
+
   inv <- augmented_mat[, -c(1:n)]
   for(i in 1:n){
     for(j in 1:n){
