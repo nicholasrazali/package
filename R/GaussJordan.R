@@ -70,8 +70,6 @@ GaussJordan <- function(A, b) {
     }
   }
   x <- augmented_mat[, n + 1]
-
-  if(ratio == 0) next
   cat("\n Hasil persamaan yang didapatkan \n")
   return(x)
 }
