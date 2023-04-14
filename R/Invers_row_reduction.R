@@ -17,6 +17,9 @@
 
 invers_row_reduction <- function(x) {
   n <- nrow(x)
+  m <- ncol(x)
+  if(n!=m) stop("Ukuran jumlah baris dan kolom harus sama (squared matrix)")
+
   augmented_mat <- cbind(x, diag(n))
   cat("matriks awal\n")
   print(x)
@@ -81,12 +84,16 @@ invers_row_reduction <- function(x) {
   }
 
   inv <- augmented_mat[, -c(1:n)]
+
+  ' handling jika Na atau inf
   for(i in 1:n){
     for(j in 1:n){
       if(is.nan(inv[i,j]) || is.infinite(inv[i,j]))
         stop("Invers dari matrix tidak dapat dihasilkan")
     }
   }
+  '
+
   cat("\n Hasil Inverse dengan row reduction \n")
   return(inv)
 }

@@ -1,7 +1,7 @@
 
-#' Gauss Jordan
+#' Polynomial Interpolation
 #' @description
-#' 'Gauss Jordan' dengan secara bertahap
+#' 'Polynomial Interpolation' dengan secara bertahap
 #'
 #' @details
 #' This is a generic function: methods can be defined for it directly
@@ -10,16 +10,25 @@
 #' first argument.
 #' @export
 #' @examples
-#' A <- matrix(c(1,1,0,0,-1,2,1,0,1),3,3)
-#' b <- c(4,-1,7)
-#' GaussJordan(A,b)
-#' @param A squared matrix variable
-#' @param b vector variable
+#' x <- c(1,2,3,4)
+#' y <- c(3,-2,-5,0)
+#' PolynomialInterpolation(x,y)
+#' @param x squared matrix variable
+#' @param y vector variable
 
 
-GaussJordan <- function(A, b) {
+PolynomialInterpolation <- function(x, y) {
+  len_x <- length(x)
+  len_y <- length(y)
+  if(len_x != len_y) stop("Jumlah x dan y harus sama")
+
+  A <- matrix(rep(1,len_x),len_x,1)
+
+  for(i in 1:(len_x - 1)){
+    A <- cbind(A, as.matrix(x^i))
+  }
   n <- nrow(A)
-  augmented_mat   <- cbind(A, b)
+  augmented_mat   <- cbind(A, y)
   cat("matriks awal\n")
   print(A)
 

@@ -17,7 +17,7 @@
 #' @param y numeric variable
 
 
-counting <- function(x, y){
+Counting <- function(x, y){
   if(!is.matrix(x) || !is.matrix(y)){
     stop("data must be in matrix")
   }
