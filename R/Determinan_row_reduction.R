@@ -1,46 +1,43 @@
 
-#' Determinan with row reduction
+#' Determinan dengan Row Reduction
 #' @description
-#' 'Determinan' dengan menggunakan metode row reduction secara bertahap
+#' Fungsi ini akan melakukan pencarian nilai determinan dari suatu matriks persegi dengan menggunakan metode row reduction dan disertai dengan langkah pengerjaannya.
 #'
 #' @details
-#' This is a generic function: methods can be defined for it directly
-#' or via the [Summary()] group generic. For this to work properly,
-#' the arguments `...` should be unnamed, and dispatch is on the
-#' first argument.
-#' @export
+#' Fungsi ini untuk melakukan pencarian nilai determinan dengan menggunakan metode row reduction, Metode
+#' row reduction dilakukan dengan cara transformasi matriks menjadi matriks echelon baris dan kemudian
+#' menerapkan subtitusi mundur untuk mendapatkan nilai determinan.
 #' @examples
 #' x <- matrix(c(0,3,2,1,-6,6,5,9,1),3,3)
-#' Determinan_row_reduction(x)
-#' @param x squared matrix variable
+#' determinan_row_reduction(x)
+#' @param x  matriks persegi
+#' @return Nilai determinan dari matriks
+#' @export
 
-Determinan_row_reduction <- function(x){
-
+determinan_row_reduction <- function(x){
+  if(is.matrix(x) == FALSE) stop("variabel x harus dalam matriks")
   n <- nrow(x)
   m <- ncol(x)
-  if(n!=m) stop("Ukuran jumlah baris dan kolom harus sama (squared matrix)")
+  if(n!=m) stop("Ukuran jumlah baris dan kolom harus sama (matriks persegi)")
 
-  augmented_mat <- cbind(x)
-  cat("matriks awal\n")
+  cat("Matriks awal\n")
   print(x)
 
   step <- 1
-
   change <- 0
+
   for (i in 1:n) {
-    # Find the pivot row
     pivot_row <- i
-    if(augmented_mat[i,i] == 0){
+    if(x[i,i] == 0){
       for (j in i:n) {
-        if (abs(augmented_mat[j, i]) > abs(augmented_mat[pivot_row, i])) {
+        if (abs(x[j, i]) > abs(x[pivot_row, i])) {
           pivot_row <- j
         }
       }
-      # Swap rows if necessary
       if (pivot_row != i) {
-        augmented_mat[c(i, pivot_row), ] <- augmented_mat[c(pivot_row, i), ]
-        cat("\nStep", step ,": tukar baris ",i, "dengan baris ",pivot_row, "\n")
-        print(augmented_mat)
+        x[c(i, pivot_row), ] <- x[c(pivot_row, i), ]
+        cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",pivot_row, "\n"))
+        print(x)
         step = step + 1
         change = change + 1
       }
@@ -50,14 +47,14 @@ Determinan_row_reduction <- function(x){
   idx <- c()
   index = 1
   for (i in 1:n) {
-    pivot <- augmented_mat[i, i]
+    pivot <- x[i, i]
     if (pivot == 0) {
-      stop("tidak dapat diselesaikan")  # System is inconsistent
+      stop("Tidak dapat diselesaikan")
     }
-    else augmented_mat[i, ] <- augmented_mat[i, ] / pivot
+    else x[i, ] <- x[i, ] / pivot
 
-    cat("\nStep", step, ": baris", i, "= baris",i, "dibagi", pivot,"\n")
-    print(augmented_mat)
+    cat(paste0("\nStep ", step, ": baris", i, " = baris ",i, " dibagi ", pivot,"\n"))
+    print(x)
     step = step + 1
     idx[index] = pivot
     cat("\nCommon factor yang didapatkan :", idx[index], "\n")
@@ -65,11 +62,11 @@ Determinan_row_reduction <- function(x){
 
     for (j in i:n) {
       if (i != j) {
-        ratio <- augmented_mat[j, i] / augmented_mat[i, i]
+        ratio <- x[j, i] / x[i, i]
         if(ratio == 0) next
-        augmented_mat[j, ] <- augmented_mat[j, ] - ratio * augmented_mat[i, ]
-        cat("\nStep", step," : baris",j, " = ", -1*ratio, "* baris", i, "+ baris", j, "\n")
-        print(augmented_mat)
+        x[j, ] <- x[j, ] - ratio * x[i, ]
+        cat(paste0("\nStep ", step,": baris ",j, " = ", -1*ratio, " * baris ", i, " + baris ", j, "\n"))
+        print(x)
         step = step + 1
       }
     }
@@ -92,8 +89,7 @@ Determinan_row_reduction <- function(x){
       cat(" *",idx[i])
     }
   }
-  cat(" = ",det,"\n")
+  cat(" =",det,"\n")
 
   return(det)
-
 }

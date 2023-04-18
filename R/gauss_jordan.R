@@ -1,34 +1,39 @@
 
-#' Invers dengan Row Reduction
+#' Eliminasi Gauss-Jordan
 #' @description
-#' Fungsi ini akan melakukan pencarian nilai invers dari suatu matriks persegi dengan menggunakan metode row reduction dan disertai dengan langkah pengerjaannya.
+#' Fungsi ini akan melakukan elimanasi Gauss-Jordan untuk menyelesaikan sistem persamaan linear yang disertai dengan langkah pengerjaannya.
 #'
 #' @details
-#' Fungsi ini untuk melakukan pencarian nilai invers dengan menggunakan metode row reduction, Metode
-#' row reduction dilakukan dengan cara transformasi matriks menjadi matriks echelon baris dan kemudian
-#' menerapkan subtitusi mundur untuk mendapatkan nilai invers.
-#'
+#' Fungsi ini untuk melakukan penyelesaian sistem persamaan linear dengan menggunakan eliminasi Gauss-Jordan.
+#' Proses eliminasi Gauss-Jordan dilakukan dengan mengubah matriks koefisien menjadi matriks augmented,
+#' kemudian melakukan operasi baris elementer hingga matriks tersebut menjadi matriks echelon baris,
+#' lalu mengubah matriks tersebut menjadi matriks reduksi baris.
 #' @examples
-#' x <- matrix(1:4,2,2)
-#' invers_row_reduction(x)
-#' @param x matriks persegi
-#' @return Nilai invers dari matriks
+#' A <- matrix(c(1,1,0,0,-1,2,1,0,1),3,3)
+#' b <- c(4,-1,7)
+#' gauss_jordan(A,b)
+#' @param A variabel matriks persegi
+#' @param b variabel vektor
+#' @return Penyelesaian persamaan linear
 #' @export
 
-invers_row_reduction <- function(x) {
-  if(is.matrix(x) == FALSE) stop("variabel x harus dalam matriks")
-  n <- nrow(x)
-  m <- ncol(x)
+gauss_jordan <- function(A, b) {
+  if(is.matrix(A) == FALSE) stop("variabel A harus dalam matriks")
+  else if(is.vector(b) == FALSE) stop("variabel b harus dalam vector")
+
+  n <- nrow(A)
+  m <- ncol(A)
 
   if(n!=m) stop("Ukuran jumlah baris dan kolom harus sama (matriks persegi)")
+  else if(n != length(b)) stop("jumlah vector b tidak sama dengan jumlah baris dan kolom pada matriks")
 
   cat("Matriks awal\n")
-  print(x)
+  print(A)
 
-  augmented_matrix <- cbind(x, diag(n))
-  cat("\nStep 1: Menambahkan matriks identitas di sebelah kanan\n")
+  augmented_matrix   <- cbind(A, b)
+
+  cat("\nStep 1: Menjadikan Augmented Matriks\n")
   print(augmented_matrix)
-
   step <- 2
 
   for (i in 1:n) {
@@ -47,7 +52,6 @@ invers_row_reduction <- function(x) {
       }
     }
   }
-
   for (i in 1:n) {
     pivot <- augmented_matrix[i, i]
     if (pivot == 0) {
@@ -70,7 +74,6 @@ invers_row_reduction <- function(x) {
       }
     }
   }
-
   for (i in (n-1):1) {
     for (j in (i+1):n) {
       if (i != j) {
@@ -83,9 +86,7 @@ invers_row_reduction <- function(x) {
       }
     }
   }
-
-  inv <- augmented_matrix[, -c(1:n)]
-
-  cat("\nHasil inverse dengan row reduction \n")
-  return(inv)
+  x <- augmented_matrix[, n + 1]
+  cat("\nHasil persamaan yang didapatkan \n")
+  return(x)
 }
