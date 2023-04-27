@@ -21,7 +21,7 @@ Fungsi ini untuk menyelesaikan sistem persamaan linear dengan menggunakan metode
 Fungsi ini untuk melakukan penyelesaian sistem persamaan linear dengan menggunakan Cramer's Rule,
 yaitu dengan cara mencari determinan terlebih dahulu untuk masing-masing A_i, yaitu matriks yang kolom ke-i
 digantikan dengan nilai dari vektor y, kemudian untuk penyelesaian persamaan linear
-dilakukan dengan membagi hasil determinan pada matriks A_i dengan hasil determinan matriks awal (A)
+dilakukan dengan membagi hasil determinan pada matriks A_i dengan hasil determinan matriks awal (A).
 }
 \examples{
 A <- matrix(c(1,-3,-1,0,4,-2,2,6,3),3,3)

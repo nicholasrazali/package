@@ -40,7 +40,7 @@ gauss_jordan <- function(A, b) {
     pivot_row <- i
     if(augmented_matrix[i,i] == 0){
       for (j in i:n) {
-        if (abs(augmented_matrix[j, i]) > abs(augmented_matrix[pivot_row, i])) {
+        if (abs(augmented_matrix[j, i]) >= abs(augmented_matrix[pivot_row, i])) {
           pivot_row <- j
         }
       }

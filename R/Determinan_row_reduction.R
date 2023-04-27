@@ -30,7 +30,7 @@ determinan_row_reduction <- function(x){
     pivot_row <- i
     if(x[i,i] == 0){
       for (j in i:n) {
-        if (abs(x[j, i]) > abs(x[pivot_row, i])) {
+        if (abs(x[j, i]) >= abs(x[pivot_row, i])) {
           pivot_row <- j
         }
       }
