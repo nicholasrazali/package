@@ -2,10 +2,10 @@
 #' Mencari Rotasi dari vektor R3
 #' @description
 #' Fungsi ini akan melakukan pencarian rotasi dari vektor
-#' berdasarkan berlawanan arah jarum jam, axis, dan besaran sudut.
+#' berdasarkan berlawanan arah jarum jam, axis, dan besaran sudut pada tiga dimensi.
 #' @details
 #' Fungsi ini untuk melakukan pencarian rotasi dari vektor
-#' berdasarkan berlawanan arah jarum jam, axis, dan besaran sudut. Jika axis bernilai 'x', maka
+#' berdasarkan berlawanan arah jarum jam, axis, dan besaran sudut pada tiga dimensi. Jika axis bernilai 'x', maka
 #' akan dilakukan rotasi terhadap sumbu x, jika axis bernilai 'y',
 #' maka akan dilakukan rotasi terhadap sumbu y, dan jika axis bernilai 'z', maka
 #' akan dilakukan rotasi terhadap sumbu 'z'.
@@ -13,14 +13,14 @@
 #' A = c(3,4,5)
 #' alfa = 60
 #' axis = "x"
-#' rotation_counterclockwise(A, alfa = alfa, axis = axis )
+#' rotation_plane(A, alfa = alfa, axis = axis )
 #' @param A vektor input yang ingin dilakukan transformasi rotasi
 #' @param alfa besaran sudut
 #' @param axis sumbu rotasi terhadap vektor yang akan dilakukan
 #' @return Hasil transformasi rotasi
 #' @export
 
-rotation_counterclockwise <- function(A, alfa, axis){
+rotation_plane <- function(A, alfa, axis){
   if(is.vector(A) == FALSE) stop("Variabel A harus dalam vektor")
   else if(length(A)!=3) stop("jumlah data vektor A harus terdiri dari 3 data")
   else if(is.numeric(alfa) == FALSE) stop("Variabel alfa harus dalam angka")
