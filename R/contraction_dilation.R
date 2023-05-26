@@ -1,4 +1,4 @@
-
+library(ggplot2)
 #' Mencari Kontraksi dan Dilatasi dari vektor R2 atau Vektor R3
 #' @description
 #' Fungsi ini akan melakukan pencarian kontraksi dan dilatasi dari vektor
@@ -33,7 +33,21 @@ contraction_dilatation <- function(A, k){
 
   cat("\nTransformasi Matriks * vektor A : \n")
 
-  transformation = transformasi %*% A
+  transformation = as.vector(transformasi %*% A)
+
+
+  vektor <- data.frame(
+    x = A,  # Komponen x dari vektor
+    y = transformation   # Komponen y dari vektor
+  )
+
+  # Membuat plot
+  ggplot() +
+    geom_segment(data = vektor, aes(x = 0, y = 0, xend = x, yend = y),
+                 arrow = arrow(length = unit(0.3, "cm")), color = "blue") +
+    xlim(-1, 4) +
+    ylim(-1, 3) +
+    theme_minimal()
 
   return(transformation)
 }

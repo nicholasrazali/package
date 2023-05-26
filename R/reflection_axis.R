@@ -40,7 +40,7 @@ reflection_axis <- function(A, axis){
 
   cat("\nRefleksi Matriks * vektor A : \n")
 
-  reflection = reflect %*% A
+  reflection = as.vector(reflect %*% A)
 
   return(reflection)
 }
