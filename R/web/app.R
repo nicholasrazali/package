@@ -3,10 +3,6 @@ library(shiny)
 library(AljabarLinear)
 library(shinyMatrix)
 
-a = matrix(c(1,1,0,0,-1,2,1,0,1),3,3)
-vec <- c(4,-1,7)
-vec2 <- c(5,2,-2)
-
 ui <- fluidPage(
   titlePanel("Aljabar Linear"),
   sidebarLayout(
@@ -145,23 +141,23 @@ server <- function(input, output, session) {
   )
 
 
-#### input matrix invers
+  #### input matrix invers
   matrix_data <- reactiveVal(NULL)
   observeEvent(input$inv_submit, {
     output$inv_matrix_input <- renderUI({
-        matrixInput(
-          inputId = "inv_input_matrix",
-          label = "Masukkan matriks:",
-          value = matrix_data(),
-          rows = list(extend = FALSE, names = FALSE),
-          cols = list(extend = FALSE, names = FALSE),
-          class = "numeric",
-        )
+      matrixInput(
+        inputId = "inv_input_matrix",
+        label = "Masukkan matriks:",
+        value = matrix_data(),
+        rows = list(extend = FALSE, names = FALSE),
+        cols = list(extend = FALSE, names = FALSE),
+        class = "numeric",
+      )
     })
     matrix_data(matrix(0, nrow = input$inv_rows, ncol = input$inv_cols, dimnames = list(NULL, NULL)))
 
     output$inv_submit_matrix <-renderUI({
-        actionButton("inv_submit_btn", "input matrix")
+      actionButton("inv_submit_btn", "input matrix")
     })
   })
 
@@ -178,10 +174,10 @@ server <- function(input, output, session) {
     })
 
     output$radio_inv <- renderUI(radioButtons("inv_radio",
-                 label = "Pilih metode",
-                 choices = c("Row Reduction", "Adjoint Matrix"),
-                 selected = "Row Reduction",
-                 inline = TRUE))
+                                              label = "Pilih metode",
+                                              choices = c("Row Reduction", "Adjoint Matrix"),
+                                              selected = "Row Reduction",
+                                              inline = TRUE))
 
     #### output akhir untuk Invers
     output$invers <- renderPrint(
@@ -194,24 +190,24 @@ server <- function(input, output, session) {
     )
   })
 
-#=== input matrix determinan
+  #=== input matrix determinan
   matrix_det <- reactiveVal(NULL)
   observeEvent(input$det_submit, {
     output$det_matrix_input <- renderUI({
-        matrixInput(
-          inputId = "det_input_matrix",
-          label = "Masukkan matriks:",
-          value = matrix_data(),
-          rows = list(extend = FALSE, names = FALSE),
-          cols = list(extend = FALSE, names = FALSE),
-          class = "numeric",
-        )
+      matrixInput(
+        inputId = "det_input_matrix",
+        label = "Masukkan matriks:",
+        value = matrix_data(),
+        rows = list(extend = FALSE, names = FALSE),
+        cols = list(extend = FALSE, names = FALSE),
+        class = "numeric",
+      )
     })
 
     matrix_data(matrix(0, nrow = input$det_rows, ncol = input$det_cols, dimnames = list(NULL, NULL)))
 
     output$det_submit_matrix <-renderUI({
-        actionButton("det_submit_btn", "input matrix")
+      actionButton("det_submit_btn", "input matrix")
     })
   })
 
@@ -225,10 +221,10 @@ server <- function(input, output, session) {
 
 
     output$radio_det <- renderUI(radioButtons("det_radio",
-                        label = "Pilih metode",
-                        choices = c("Row Reduction", "Cofactor"),
-                        selected = "Row Reduction",
-                        inline = TRUE))
+                                              label = "Pilih metode",
+                                              choices = c("Row Reduction", "Cofactor"),
+                                              selected = "Row Reduction",
+                                              inline = TRUE))
 
     output$det_output_matrix <- renderPrint({
       matrix_det_a()
@@ -245,23 +241,23 @@ server <- function(input, output, session) {
     )
   })
 
-#=== input matrix persamaan linear
+  #=== input matrix persamaan linear
   matrix_pers <- reactiveVal(NULL)
   observeEvent(input$pers_submit, {
     output$pers_matrix_input <- renderUI({
-        matrixInput(
-          inputId = "pers_input_matrix",
-          label = "Masukkan matriks:",
-          value = matrix_pers(),
-          rows = list(extend = FALSE, names = FALSE),
-          cols = list(extend = FALSE, names = FALSE),
-          class = "numeric",
-        )
+      matrixInput(
+        inputId = "pers_input_matrix",
+        label = "Masukkan matriks:",
+        value = matrix_pers(),
+        rows = list(extend = FALSE, names = FALSE),
+        cols = list(extend = FALSE, names = FALSE),
+        class = "numeric",
+      )
     })
     matrix_pers(matrix(0, nrow = input$pers_rows, ncol = input$pers_cols, dimnames = list(NULL, NULL)))
 
     output$pers_submit_matrix <-renderUI({
-        actionButton("pers_submit_btn", "input matrix")
+      actionButton("pers_submit_btn", "input matrix")
     })
   })
 
@@ -309,24 +305,24 @@ server <- function(input, output, session) {
     )
   })
 
-#==== matrix hitung
-### hitung 1
+  #==== matrix hitung
+  ### hitung 1
   matrix_hit_1 <- reactiveVal(NULL)
   observeEvent(input$submit_1, {
     output$hit_matrix_input_1 <- renderUI({
-        matrixInput(
-          inputId = "hit_input_matrix_1",
-          label = "Masukkan matriks Pertama:",
-          value = matrix_hit_1(),
-          rows = list(extend = FALSE, names = FALSE),
-          cols = list(extend = FALSE, names = FALSE),
-          class = "numeric",
-        )
+      matrixInput(
+        inputId = "hit_input_matrix_1",
+        label = "Masukkan matriks Pertama:",
+        value = matrix_hit_1(),
+        rows = list(extend = FALSE, names = FALSE),
+        cols = list(extend = FALSE, names = FALSE),
+        class = "numeric",
+      )
     })
     matrix_hit_1(matrix(0, nrow = input$hit_rows_1, ncol = input$hit_cols_1, dimnames = list(NULL, NULL)))
 
     output$hit_submit_matrix_1 <-renderUI({
-        actionButton("hit_submit_1", "input matrix")
+      actionButton("hit_submit_1", "input matrix")
     })
   })
 
@@ -344,34 +340,34 @@ server <- function(input, output, session) {
 
     output$output_matrix_hit_2 <- renderUI({
       list(h3("Masukkan matrix kedua"),
-      numericInput("hit_rows_2", "Masukkan Jumlah Baris:", value = 2, min = 1),
-      numericInput("hit_cols_2", "Masukkan Jumlah Kolom:", value = 2, min = 1),
-      actionButton("submit_2", "Submit"),
+           numericInput("hit_rows_2", "Masukkan Jumlah Baris:", value = 2, min = 1),
+           numericInput("hit_cols_2", "Masukkan Jumlah Kolom:", value = 2, min = 1),
+           actionButton("submit_2", "Submit"),
 
-      uiOutput("hit_matrix_input_2"),
-      uiOutput("hit_submit_matrix_2"),
-      verbatimTextOutput("hit_output_matrix_2"))
+           uiOutput("hit_matrix_input_2"),
+           uiOutput("hit_submit_matrix_2"),
+           verbatimTextOutput("hit_output_matrix_2"))
     })
   })
 
-### hitung 2
+  ### hitung 2
   matrix_hit_2 <- reactiveVal(NULL)
   observeEvent(input$submit_2, {
     output$hit_matrix_input_2 <- renderUI({
-        matrixInput(
-          inputId = "hit_input_matrix_2",
-          label = "Masukkan matriks Kedua:",
-          value = matrix_hit_2(),
-          rows = list(extend = FALSE, names = FALSE),
-          cols = list(extend = FALSE, names = FALSE),
-          class = "numeric",
-        )
+      matrixInput(
+        inputId = "hit_input_matrix_2",
+        label = "Masukkan matriks Kedua:",
+        value = matrix_hit_2(),
+        rows = list(extend = FALSE, names = FALSE),
+        cols = list(extend = FALSE, names = FALSE),
+        class = "numeric",
+      )
     })
 
     matrix_hit_2(matrix(0, nrow = input$hit_rows_2, ncol = input$hit_cols_2, dimnames = list(NULL, NULL)))
 
     output$hit_submit_matrix_2 <-renderUI({
-        actionButton("hit_submit_2", "input matrix")
+      actionButton("hit_submit_2", "input matrix")
     })
   })
 
@@ -384,10 +380,10 @@ server <- function(input, output, session) {
     matrix_hit_2_a(matrix(mat, nrow = input$hit_rows_2, ncol = input$hit_cols_2))
 
     output$radio_hit <- renderUI(radioButtons("hit_radio",
-                 label = "Pilih",
-                 choices = c("Hitung", "Step Perkalian"),
-                 selected = "Hitung",
-                 inline = TRUE))
+                                              label = "Pilih",
+                                              choices = c("Hitung", "Step Perkalian"),
+                                              selected = "Hitung",
+                                              inline = TRUE))
 
     output$hit_output_matrix_2 <- renderPrint({
       matrix_hit_2_a()
@@ -408,8 +404,8 @@ server <- function(input, output, session) {
 
 
 
-##### Vector
-#### output untuk dot product dan cross product
+  ##### Vector
+  #### output untuk dot product dan cross product
   dot_vector <- reactiveVal(NULL)
   observeEvent(input$dot_submit_1, {
     vector_dot <- as.numeric(strsplit(input$dot_vec, ",")[[1]])
@@ -455,7 +451,7 @@ server <- function(input, output, session) {
 
 
 
-#### output untuk Polinomial
+  #### output untuk Polinomial
   x_vector <- reactiveVal(NULL)
   observeEvent(input$x_submit, {
     vector_x <- as.numeric(strsplit(input$x_vec, ",")[[1]])
@@ -493,37 +489,37 @@ server <- function(input, output, session) {
   })
 
 
-#### output untuk dot product dan cross product
+  #### output untuk dot product dan cross product
 
   output$input_vector_dist <- renderUI(
-      if (input$dist_radio == "Jarak 2 titik") {
-        list(
-          textInput("vec_titik_1", "Masukkan titik pertama (pisahkan dengan koma)", "0"),
-          actionButton("titik_submit_1", "Submit"),
-          verbatimTextOutput("titik_output_vector_1")
-        )
-      } else if (input$dist_radio == "Jarak 2 bidang") {
-        list(
-          textInput("vec_bidang_1", "Masukkan bidang pertama (pisahkan dengan koma)", "0"),
-          actionButton("bidang_submit_1", "Submit"),
-          verbatimTextOutput("bidang_output_vector_1")
-        )
-      } else {
-        list(
-          textInput("vec_titik", "Masukkan titik (pisahkan dengan koma)", "0"),
-          actionButton("titik_submit", "Submit"),
-          verbatimTextOutput("titik_output_vector")
-        )
-      }
+    if (input$dist_radio == "Jarak 2 titik") {
+      list(
+        textInput("vec_titik_1", "Masukkan titik pertama (pisahkan dengan koma)", "0"),
+        actionButton("titik_submit_1", "Submit"),
+        verbatimTextOutput("titik_output_vector_1")
+      )
+    } else if (input$dist_radio == "Jarak 2 bidang") {
+      list(
+        textInput("vec_bidang_1", "Masukkan bidang pertama (pisahkan dengan koma)", "0"),
+        actionButton("bidang_submit_1", "Submit"),
+        verbatimTextOutput("bidang_output_vector_1")
+      )
+    } else {
+      list(
+        textInput("vec_titik", "Masukkan titik (pisahkan dengan koma)", "0"),
+        actionButton("titik_submit", "Submit"),
+        verbatimTextOutput("titik_output_vector")
+      )
+    }
   )
   ### 2 titik
   titik_vector_1 <- reactiveVal(NULL)
   observeEvent(input$titik_submit_1, {
-    vector_titik_1 <- as.numeric(strsplit(input$vec_titik_1, ",")[[1]])
-    titik_vector_1(vector_titik_1)
-    output$titik_output_vector_1 <- renderPrint({
-      titik_vector_1()
-    })
+      vector_titik_1 <- as.numeric(strsplit(input$vec_titik_1, ",")[[1]])
+      titik_vector_1(vector_titik_1)
+      output$titik_output_vector_1 <- renderPrint({
+        titik_vector_1()
+      })
 
     output$input_vector_dist_2 <- renderUI({
       list(
@@ -684,7 +680,7 @@ server <- function(input, output, session) {
     }
   })
 
-#### output untuk transformasi linear
+  #### output untuk transformasi linear
   trans_vector <- reactiveVal(NULL)
   observeEvent(input$trans_submit, {
     vector_trans <- as.numeric(strsplit(input$trans_vec, ",")[[1]])
@@ -694,10 +690,10 @@ server <- function(input, output, session) {
     })
 
     output$radio_trans <- renderUI(radioButtons("trans_radio",
-                                              label = "Pilih metode",
-                                              choices = c("Refleksi", "Rotasi", "Proyeksi", "Kontraksi/Dilatasi"),
-                                              selected = "Refleksi",
-                                              inline = TRUE))
+                                                label = "Pilih metode",
+                                                choices = c("Refleksi", "Rotasi", "Proyeksi", "Kontraksi/Dilatasi"),
+                                                selected = "Refleksi",
+                                                inline = TRUE))
 
     output$input_info_trans <- renderUI({
       if (input$trans_radio == "Refleksi") {
@@ -708,9 +704,9 @@ server <- function(input, output, session) {
         )
       } else if (input$trans_radio == "Rotasi") {
         list(
-          textInput("vec_rotasi", "Besar Sudut (diisi dengan angka)", ""),
-          actionButton("rotasi_submit", "Submit"),
-          verbatimTextOutput("rotasi_output_vector"),
+          textInput("vec_rotasi_alfa", "Besar Sudut (diisi dengan angka)", ""),
+          actionButton("rotasi_submit_alfa", "Submit"),
+          verbatimTextOutput("rotasi_output_vector_alfa"),
 
           br(),
 
@@ -754,30 +750,37 @@ server <- function(input, output, session) {
 
   kontraksi_vector <- reactiveVal(NULL)
   observeEvent(input$kontraksi_submit, {
-    vector_kont <- input$vec_kontraksi
+    vector_kont <- as.numeric(input$vec_kontraksi)
     kontraksi_vector(vector_kont)
     output$kontraksi_output_vector <- renderPrint({
       kontraksi_vector()
     })
   })
 
+  rotasi_vector_alfa <- reactiveVal(NULL)
+  observeEvent(input$rotasi_submit_alfa, {
+    vector_rot_alfa <- as.numeric(input$vec_rotasi_alfa)
+    rotasi_vector_alfa(vector_rot_alfa)
+    output$rotasi_output_vector_alfa <- renderPrint({
+      rotasi_vector_alfa()
+    })
+  })
+
+  rotasi_vector <- reactiveVal(NULL)
+  observeEvent(input$rotasi_submit, {
+    vector_rot <- input$vec_rotasi
+    rotasi_vector(vector_rot)
+    output$rotasi_output_vector <- renderPrint({
+      rotasi_vector()
+    })
+  })
 
 
   output$transformasi <- renderPrint(
     if (input$trans_radio == "Refleksi") {
-      reflection_plane(trans_vector(),refleksi_vector())
+      reflection_vector(trans_vector(),refleksi_vector())
     } else if (input$trans_radio == "Rotasi") {
-      list(
-        textInput("vec_rotasi", "Besar Sudut (diisi dengan angka)", ""),
-        actionButton("rotasi_submit", "Submit"),
-        verbatimTextOutput("rotasi_output_vector"),
-
-        br(),
-
-        textInput("vec_rotasi", "Terhadap axis/bidang (x,y,z/xy,xz,yz)", ""),
-        actionButton("rotasi_submit", "Submit"),
-        verbatimTextOutput("rotasi_output_vector")
-      )
+      rotation_plane(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
     } else if(input$trans_radio == "Proyeksi"){
       projection_plane(trans_vector(),proyeks_vector())
     } else {
