@@ -22,10 +22,10 @@
 #' reflection_vector(A, to)
 #' @param A vektor input yang ingin dilakukan transformasi refleksi
 #' @param to refleksi terhadap vektor yang akan dilakukan
-#' @return Hasil transformasi refleksi
+#' @return Plot hasil transformasi refleksi
+#' @import plotly
 #' @export
 
-library(plotly)
 
 reflection_vector <- function(A, to) {
   if (!is.vector(A))
@@ -57,37 +57,52 @@ reflection_vector <- function(A, to) {
 
   reflection <- as.vector(reflect %*% A)
 
-  # Plot vektor asli
-  original <- data.frame(x = c(0, A[1]), y = c(0, A[2]), z = c(0, ifelse(length(A) == 3, A[3], 0)))
-
-  # Plot vektor hasil refleksi
-  reflected <- data.frame(x = c(0, reflection[1]), y = c(0, reflection[2]), z = c(0, ifelse(length(A) == 3, reflection[3], 0)))
-
-  # Buat plot 3D menggunakan plotly
-  p <- plot_ly() %>%
-    add_trace(
-      type = "scatter3d",
-      mode = "lines",
-      x = original$x, y = original$y, z = original$z,
-      line = list(color = "blue"),
-      name = "Vektor Asli"
-    ) %>%
-    add_trace(
-      type = "scatter3d",
-      mode = "lines",
-      x = reflected$x, y = reflected$y, z = reflected$z,
-      line = list(color = "red"),
-      name = "Hasil Refleksi"
-    )
-
-  # Tampilkan plot
-  p
-
   # Hasil refleksi
   cat("Vektor A:\n")
   print(A)
-  cat("Refleksi Matriks:\n")
+  cat("\nRefleksi Matriks:\n")
   print(reflect)
-  cat("Hasil Refleksi:\n")
+  cat("\nHasil Refleksi:\n")
   print(reflection)
+
+
+  original <- data.frame(x = c(0, A[1]), y = c(0, A[2]), z = c(0, ifelse(length(A) == 3, A[3], 0)))
+  reflected <- data.frame(x = c(0, reflection[1]), y = c(0, reflection[2]), z = c(0, ifelse(length(A) == 3, reflection[3], 0)))
+
+
+  if(length(A) == 2){
+    p <- plot_ly() %>%
+      add_trace(
+        type = "scatter",
+        mode = "lines",
+        x = original$x, y = original$y,
+        line = list(color = "blue"),
+        name = "Vektor Asli"
+      ) %>%
+      add_trace(
+        type = "scatter",
+        mode = "lines",
+        x = reflected$x, y = reflected$y,
+        line = list(color = "red"),
+        name = "Hasil Refleksi"
+      )
+  }else{
+    p <- plot_ly() %>%
+      add_trace(
+        type = "scatter3d",
+        mode = "lines",
+        x = original$x, y = original$y, z = original$z,
+        line = list(color = "blue"),
+        name = "Vektor Asli"
+      ) %>%
+      add_trace(
+        type = "scatter3d",
+        mode = "lines",
+        x = reflected$x, y = reflected$y, z = reflected$z,
+        line = list(color = "red"),
+        name = "Hasil Refleksi"
+      )
+  }
+
+  return(p)
 }
