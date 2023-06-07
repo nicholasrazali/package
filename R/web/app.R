@@ -3,17 +3,41 @@ library(shiny)
 library(AljabarLinear)
 library(shinyMatrix)
 library(plotly)
+library(shinyjs)
 
 ui <- fluidPage(
+  useShinyjs(),
   tags$head(
     tags$style(
       HTML("
-        .color {
-          width:20%;
-        }
-      ")
+      .size{
+        width: 120px;
+      }
+    ")
     )
   ),
+
+#### script ####
+  tags$script(HTML('
+    $(document).ready(function() {
+      Shiny.addCustomMessageHandler("change_matrix_size", function(message) {
+        var width = message.width * 40 + "px";
+        $(".size").css("width", width);
+      });
+
+      function setSavedWidth() {
+        $(".size").css("width", "50px");
+        console.log($(".size").css("width"));
+      }
+
+      Shiny.addCustomMessageHandler("setSavedWidth", function(message) {
+        setSavedWidth();
+      });
+    });
+  ')),
+
+#### /script ####
+
   titlePanel("Aljabar Linear"),
   sidebarLayout(
     sidebarPanel(
@@ -27,15 +51,19 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  ##### tab #####
   output$dynamicTabs <- renderUI(
+    ##### matrix ######
     if(input$functions == "Matrix"){
       navbarPage(
+        id = "nav_matrix",
         title = NULL,
         header = NULL,
         footer = NULL,
+        ##### determinan ######
         tabPanel("Determinan",
-                 numericInput("det_rows", "Masukkan Jumlah Baris:", value = 2, min = 1),
-                 numericInput("det_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1),
+                 uiOutput("det_reset"),
+                 numericInput("det_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("det_submit", "Submit"),
 
                  uiOutput("det_matrix_input"),
@@ -44,9 +72,9 @@ server <- function(input, output, session) {
 
                  uiOutput("radio_det"),
 
-                 verbatimTextOutput("determinan")
-        ),
+                 verbatimTextOutput("determinan")),
 
+        ##### invers ######
         tabPanel("Invers",
                  numericInput("inv_rows", "Masukkan Jumlah Baris:", value = 2, min = 1, max = 5),
                  numericInput("inv_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1, max = 5),
@@ -60,6 +88,7 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("invers")),
 
+        ##### hitung ######
         tabPanel("Perhitungan",
                  h3("Masukkan matrix pertama"),
                  numericInput("hit_rows_1", "Masukkan Jumlah Baris:", value = 2, min = 1),
@@ -76,6 +105,7 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("hitung")),
 
+        ##### persamaan linear ######
         tabPanel("Persamaan Linear",
                  numericInput("pers_rows", "Masukkan Jumlah Baris:", value = 2, min = 1),
                  numericInput("pers_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1),
@@ -91,12 +121,15 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("persamaan"))
       )
+
     } else if(input$functions == "Vektor"){
+      ##### vector ######
       navbarPage(
+        id = "nav_vector",
         title = NULL,
         header = NULL,
         footer = NULL,
-
+        ##### dot cross ######
         tabPanel("Dot and Cross",
                  textInput("dot_vec", "Masukkan vektor pertama (pisahkan dengan koma)", "0"),
                  actionButton("dot_submit_1", "Submit"),
@@ -107,7 +140,7 @@ server <- function(input, output, session) {
                  uiOutput("radio_dotcross"),
 
                  verbatimTextOutput("dotcross")),
-
+        ##### polinomial ######
         tabPanel("Polinomial",
                  textInput("x_vec", "Masukkan Koordinat x (pisahkan dengan koma)", "0"),
                  actionButton("x_submit", "Submit"),
@@ -119,6 +152,7 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("poli")),
 
+        ##### distance ######
         tabPanel("Distance",
                  radioButtons("dist_radio",
                               label = "Pilih perhitungan jarak terhadap",
@@ -132,6 +166,7 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("distance")),
 
+        ##### transformasi ######
         tabPanel("Transformasi Linear",
                  textInput("trans_vec", "Masukkan vektor (pisahkan dengan koma)", "0"),
                  actionButton("trans_submit", "Submit"),
@@ -152,9 +187,28 @@ server <- function(input, output, session) {
     }
   )
 
+  #### reset mengganti tab ####
+  observeEvent(input$nav_matrix,{
+    if(input$nav_matrix == "Invers"){
+      updateNumericInput(session, "det_ukuran", value = 2)
+      matrix_det(NULL)
+      matrix_det_a(NULL)
+      hide("det_input_matrix")
+      show("det_submit")
+      hide("det_reset_btn")
+      hide("det_submit_btn")
+      hide("det_radio")
+      hide("determinan")
+      hide("det_output_matrix")
+    }
 
-  #### input matrix invers
+  })
+
+
+
+  ##### input matrix invers #####
   matrix_data <- reactiveVal(NULL)
+
   observeEvent(input$inv_submit, {
     output$inv_matrix_input <- renderUI({
       matrixInput(
@@ -163,15 +217,23 @@ server <- function(input, output, session) {
         value = matrix_data(),
         rows = list(extend = FALSE, names = FALSE),
         cols = list(extend = FALSE, names = FALSE),
-        inputClass = "color",
+        inputClass = "size",
         class = "numeric",
       )
     })
-    matrix_data(matrix(0, nrow = input$inv_rows, ncol = input$inv_cols, dimnames = list(NULL, NULL)))
+      session$sendCustomMessage(type = "change_matrix_size", message = list(
+        width = input$inv_cols,
+        height = input$inv_rows
+      ))
 
+
+
+    matrix_data(matrix(0, nrow = input$inv_rows, ncol = input$inv_cols, dimnames = list(NULL, NULL)))
     output$inv_submit_matrix <-renderUI({
       actionButton("inv_submit_btn", "input matrix")
     })
+
+    session$sendCustomMessage(type = "setSavedWidth",NULL)
   })
 
   matrix_a <- reactiveVal(NULL)
@@ -203,7 +265,7 @@ server <- function(input, output, session) {
     )
   })
 
-  #=== input matrix determinan
+  ##### input matrix determinan #####
   matrix_det <- reactiveVal(NULL)
   observeEvent(input$det_submit, {
     output$det_matrix_input <- renderUI({
@@ -213,46 +275,77 @@ server <- function(input, output, session) {
         value = matrix_data(),
         rows = list(extend = FALSE, names = FALSE),
         cols = list(extend = FALSE, names = FALSE),
+        inputClass = "size",
         class = "numeric",
       )
     })
-
-    matrix_data(matrix(0, nrow = input$det_rows, ncol = input$det_cols, dimnames = list(NULL, NULL)))
-
+    matrix_data(matrix("", nrow = input$det_ukuran, ncol = input$det_ukuran, dimnames = list(NULL, NULL)))
     output$det_submit_matrix <-renderUI({
       actionButton("det_submit_btn", "input matrix")
+    })
+    hide("det_submit")
+
+    output$det_reset <- renderUI({
+      actionButton("det_reset_btn", "Reset")
     })
   })
 
   matrix_det_a <- reactiveVal(NULL)
   observeEvent(input$det_submit_btn, {
     mat <- c()
-    for (i in 1:(input$inv_rows * input$inv_cols)) {
+    for (i in 1:(input$det_ukuran * input$det_ukuran)) {
+      if(is.na(input$det_input_matrix[[i]])) return(showNotification("Masukkan matrix terlebih dahulu", type = "error"))
       mat <- c(mat, input$det_input_matrix[[i]])
     }
-    matrix_det_a(matrix(mat, nrow = input$det_rows, ncol = input$det_cols))
+    matrix_det_a(matrix(mat, nrow = input$det_ukuran, ncol = input$det_ukuran))
+    hide("det_submit_btn")
 
 
     output$radio_det <- renderUI(radioButtons("det_radio",
                                               label = "Pilih metode",
                                               choices = c("Row Reduction", "Cofactor"),
-                                              selected = "Row Reduction",
+                                              selected = "none",
                                               inline = TRUE))
 
     output$det_output_matrix <- renderPrint({
       matrix_det_a()
     })
+    show("det_output_matrix")
+    show("determinan")
 
-    #### output untuk Determinan
+      output$determinan <- renderPrint(
+        "Silahkan pilih metode"
+      )
+  })
+
+  observeEvent(input$det_radio, {
     output$determinan <- renderPrint(
       if(input$det_radio == "Row Reduction"){
         determinan_row_reduction(matrix_det_a())
       }
-      else {
+      else if(input$det_radio == "Cofactor"){
         determinan_cofactor(matrix_det_a())
       }
     )
   })
+
+  observeEvent(input$det_reset_btn, {
+    updateNumericInput(session, "det_ukuran", value = 2)
+    matrix_det(NULL)
+    matrix_det_a(NULL)
+    hide("det_input_matrix")
+    show("det_submit")
+    hide("det_reset_btn")
+    hide("det_submit_btn")
+    hide("det_radio")
+    hide("determinan")
+    hide("det_output_matrix")
+  })
+
+
+
+
+
 
   #=== input matrix persamaan linear
   matrix_pers <- reactiveVal(NULL)
