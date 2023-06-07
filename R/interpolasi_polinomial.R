@@ -41,25 +41,21 @@ interpolasi_polinomial <- function(x, y) {
   step <- 2
 
   for (i in 1:n) {
-    pivot_row <- i
-    if(augmented_mat[i,i] == 0){
-      for (j in i:n) {
-        if (abs(augmented_mat[j, i]) > abs(augmented_mat[pivot_row, i])) {
-          pivot_row <- j
-        }
-      }
-      if (pivot_row != i) {
-        augmented_mat[c(i, pivot_row), ] <- augmented_mat[c(pivot_row, i), ]
-        cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",pivot_row, "\n"))
-        print(augmented_mat)
-        step = step + 1
-      }
-    }
-  }
-  for (i in 1:n) {
     pivot <- augmented_mat[i, i]
     if (pivot == 0) {
-      stop("Tidak dapat diselesaikan")
+      if(i == n) return(cat("\n\nTerdapat banyak solusi"))
+      else{
+        for (j in (i+1):n) {
+          if (abs(augmented_matrix[j, i]) != 0) {
+            augmented_matrix[c(i, j), ] <- augmented_matrix[c(j, i), ]
+            cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",j, "\n"))
+            print(augmented_matrix)
+            step = step + 1
+            next
+          }
+          if (j == n) return(cat("\n\nTerdapat banyak solusi"))
+        }
+      }
     }
     else augmented_mat[i, ] <- augmented_mat[i, ] / pivot
     if(pivot != 1){
@@ -91,6 +87,6 @@ interpolasi_polinomial <- function(x, y) {
     }
   }
   x <- augmented_mat[, n + 1]
-  cat("\nHasil persamaan yang didapatkan \n")
+  cat("\n\nHasil persamaan yang didapatkan \n")
   return(x)
 }

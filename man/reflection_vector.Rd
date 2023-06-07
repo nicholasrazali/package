@@ -12,7 +12,7 @@ reflection_vector(A, to)
 \item{to}{refleksi terhadap vektor yang akan dilakukan}
 }
 \value{
-Hasil transformasi refleksi
+Plot hasil transformasi refleksi
 }
 \description{
 Fungsi ini akan melakukan pencarian refleksi dari vektor

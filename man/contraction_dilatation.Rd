@@ -12,7 +12,7 @@ contraction_dilatation(A, k)
 \item{k}{besaran skalar k}
 }
 \value{
-Hasil transformasi kontraksi dan dilatasi
+Plot hasil transformasi kontraksi dan dilatasi
 }
 \description{
 Fungsi ini akan melakukan pencarian kontraksi dan dilatasi dari vektor

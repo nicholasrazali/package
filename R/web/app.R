@@ -2,8 +2,18 @@ library(shiny)
 # devtools::install_github('nicholasrazali/package')
 library(AljabarLinear)
 library(shinyMatrix)
+library(plotly)
 
 ui <- fluidPage(
+  tags$head(
+    tags$style(
+      HTML("
+        .color {
+          width:20%;
+        }
+      ")
+    )
+  ),
   titlePanel("Aljabar Linear"),
   sidebarLayout(
     sidebarPanel(
@@ -38,8 +48,8 @@ server <- function(input, output, session) {
         ),
 
         tabPanel("Invers",
-                 numericInput("inv_rows", "Masukkan Jumlah Baris:", value = 2, min = 1),
-                 numericInput("inv_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1),
+                 numericInput("inv_rows", "Masukkan Jumlah Baris:", value = 2, min = 1, max = 5),
+                 numericInput("inv_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1, max = 5),
                  actionButton("inv_submit", "Submit"),
 
                  uiOutput("inv_matrix_input"),
@@ -132,7 +142,9 @@ server <- function(input, output, session) {
                  uiOutput("radio_trans"),
                  uiOutput("input_info_trans"),
 
-                 verbatimTextOutput("transformasi"))
+                 verbatimTextOutput("transformasi"),
+                 plotlyOutput("plot"))
+
       )
 
     }else {
@@ -151,6 +163,7 @@ server <- function(input, output, session) {
         value = matrix_data(),
         rows = list(extend = FALSE, names = FALSE),
         cols = list(extend = FALSE, names = FALSE),
+        inputClass = "color",
         class = "numeric",
       )
     })
@@ -515,11 +528,11 @@ server <- function(input, output, session) {
   ### 2 titik
   titik_vector_1 <- reactiveVal(NULL)
   observeEvent(input$titik_submit_1, {
-      vector_titik_1 <- as.numeric(strsplit(input$vec_titik_1, ",")[[1]])
-      titik_vector_1(vector_titik_1)
-      output$titik_output_vector_1 <- renderPrint({
-        titik_vector_1()
-      })
+    vector_titik_1 <- as.numeric(strsplit(input$vec_titik_1, ",")[[1]])
+    titik_vector_1(vector_titik_1)
+    output$titik_output_vector_1 <- renderPrint({
+      titik_vector_1()
+    })
 
     output$input_vector_dist_2 <- renderUI({
       list(
@@ -776,13 +789,25 @@ server <- function(input, output, session) {
   })
 
 
+  output$plot <- renderPlotly({
+    if (input$trans_radio == "Refleksi") {
+      reflection_vector(trans_vector(),refleksi_vector())
+    } else if (input$trans_radio == "Rotasi") {
+      rotation_vector(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
+    } else if(input$trans_radio == "Proyeksi"){
+      projection_vector(trans_vector(),proyeks_vector())
+    } else {
+      contraction_dilatation(trans_vector(),kontraksi_vector())
+    }
+  })
+
   output$transformasi <- renderPrint(
     if (input$trans_radio == "Refleksi") {
       reflection_vector(trans_vector(),refleksi_vector())
     } else if (input$trans_radio == "Rotasi") {
-      rotation_plane(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
+      rotation_vector(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
     } else if(input$trans_radio == "Proyeksi"){
-      projection_plane(trans_vector(),proyeks_vector())
+      projection_vector(trans_vector(),proyeks_vector())
     } else {
       contraction_dilatation(trans_vector(),kontraksi_vector())
     }

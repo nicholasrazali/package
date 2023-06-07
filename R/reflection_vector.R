@@ -25,23 +25,27 @@
 #' @return Hasil transformasi refleksi
 #' @export
 
-reflection_vector <- function(A, to){
-  if(is.vector(A) == FALSE) stop("Variabel A harus dalam vektor")
-  else if(length(A) < 2 || length(A) > 3) stop("jumlah data vektor A harus terdiri dari 2 atau 3 data")
+library(plotly)
 
-  if(length(A) == 2){
-      if (to == "x") {
-        reflect<- matrix(c(1, 0, 0, -1), 2, 2)
-      } else if (to == "y") {
-        reflect <- matrix(c(-1, 0, 0, 1), 2, 2)
-      } else if (to == "line") {
-        reflect <- matrix(c(0, 1, 1, 0), 2, 2)
-      } else {
-        stop("Kesalahan input axis, pilih antara 'x', 'y', atau 'line'.")
-      }
-  } else{
+reflection_vector <- function(A, to) {
+  if (!is.vector(A))
+    stop("Variabel A harus dalam bentuk vektor.")
+  else if (length(A) < 2 || length(A) > 3)
+    stop("Jumlah elemen vektor A harus terdiri dari 2 atau 3 elemen.")
+
+  if (length(A) == 2) {
+    if (to == "x") {
+      reflect <- matrix(c(1, 0, 0, -1), 2, 2)
+    } else if (to == "y") {
+      reflect <- matrix(c(-1, 0, 0, 1), 2, 2)
+    } else if (to == "line") {
+      reflect <- matrix(c(0, 1, 1, 0), 2, 2)
+    } else {
+      stop("Kesalahan input axis, pilih antara 'x', 'y', atau 'line'.")
+    }
+  } else {
     if (to == "xy") {
-      reflect<- matrix(c(1, 0, 0, 0, 1, 0, 0, 0, -1), 3, 3)
+      reflect <- matrix(c(1, 0, 0, 0, 1, 0, 0, 0, -1), 3, 3)
     } else if (to == "xz") {
       reflect <- matrix(c(1, 0, 0, 0, -1, 0, 0, 0, 1), 3, 3)
     } else if (to == "yz") {
@@ -51,16 +55,39 @@ reflection_vector <- function(A, to){
     }
   }
 
+  reflection <- as.vector(reflect %*% A)
 
-  cat("Vektor A: \n")
+  # Plot vektor asli
+  original <- data.frame(x = c(0, A[1]), y = c(0, A[2]), z = c(0, ifelse(length(A) == 3, A[3], 0)))
+
+  # Plot vektor hasil refleksi
+  reflected <- data.frame(x = c(0, reflection[1]), y = c(0, reflection[2]), z = c(0, ifelse(length(A) == 3, reflection[3], 0)))
+
+  # Buat plot 3D menggunakan plotly
+  p <- plot_ly() %>%
+    add_trace(
+      type = "scatter3d",
+      mode = "lines",
+      x = original$x, y = original$y, z = original$z,
+      line = list(color = "blue"),
+      name = "Vektor Asli"
+    ) %>%
+    add_trace(
+      type = "scatter3d",
+      mode = "lines",
+      x = reflected$x, y = reflected$y, z = reflected$z,
+      line = list(color = "red"),
+      name = "Hasil Refleksi"
+    )
+
+  # Tampilkan plot
+  p
+
+  # Hasil refleksi
+  cat("Vektor A:\n")
   print(A)
-
-  cat("\nRefleksi matriks : \n")
+  cat("Refleksi Matriks:\n")
   print(reflect)
-
-  cat("\nRefleksi Matriks * vektor A : \n")
-
-  reflection = as.vector(reflect %*% A)
-
-  return(reflection)
+  cat("Hasil Refleksi:\n")
+  print(reflection)
 }
