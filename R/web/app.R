@@ -1,9 +1,8 @@
 library(shiny)
-# devtools::install_github('nicholasrazali/package')
+#devtools::install_github('nicholasrazali/package')
 library(AljabarLinear)
 library(shinyMatrix)
 library(plotly)
-library(shinyjs)
 
 ui <- fluidPage(
   useShinyjs(),
