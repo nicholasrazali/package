@@ -47,7 +47,7 @@ gauss_jordan <- function(A, b) {
             cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",j, "\n"))
             print(augmented_matrix)
             step = step + 1
-            next
+            break
           }
           if (j == n) return(cat("\n\nTerdapat banyak solusi"))
         }

@@ -26,51 +26,63 @@ determinan_row_reduction <- function(x){
   step <- 1
   change <- 0
 
-  for (i in 1:n) {
-    pivot_row <- i
-    if(x[i,i] == 0){
-      for (j in i:n) {
-        if (abs(x[j, i]) >= abs(x[pivot_row, i])) {
-          pivot_row <- j
-        }
-      }
-      if (pivot_row != i) {
-        x[c(i, pivot_row), ] <- x[c(pivot_row, i), ]
-        cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",pivot_row, "\n"))
-        print(x)
-        step = step + 1
-        change = change + 1
-      }
-    }
-  }
-
   idx <- c()
   index = 1
+
   for (i in 1:n) {
     pivot <- x[i, i]
     if (pivot == 0) {
-      stop("Tidak dapat diselesaikan")
-    }
-    else x[i, ] <- x[i, ] / pivot
+      if(i == n) {
+        idx[index] = pivot
+        cat("\nCommon factor yang didapatkan :", idx[index], "\n")
+        index = index + 1
+        next
+      }
 
-    cat(paste0("\nStep ", step, ": baris", i, " = baris ",i, " dibagi ", pivot,"\n"))
-    print(x)
-    step = step + 1
-    idx[index] = pivot
-    cat("\nCommon factor yang didapatkan :", idx[index], "\n")
-    index = index + 1
-
-    for (j in i:n) {
-      if (i != j) {
-        ratio <- x[j, i] / x[i, i]
-        if(ratio == 0) next
-        x[j, ] <- x[j, ] - ratio * x[i, ]
-        cat(paste0("\nStep ", step,": baris ",j, " = ", -1*ratio, " * baris ", i, " + baris ", j, "\n"))
-        print(x)
-        step = step + 1
+      else{
+        lastcheck = 0
+        for (j in (i+1):n) {
+          if (abs(x[j, i]) != 0) {
+            x[c(i, j), ] <- x[c(j, i), ]
+            cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",j, "\n"))
+            print(x)
+            step = step + 1
+            change = change + 1
+            break
+          }
+          if (j == n) {
+            idx[index] = pivot
+            cat("\nCommon factor yang didapatkan :", idx[index], "\n")
+            index = index + 1
+            lastcheck = lastcheck + 1
+          }
+        }
+        if(lastcheck>0) next
       }
     }
-  }
+
+    pivot <- x[i, i]
+    x[i, ] <- x[i, ] / pivot
+
+      cat(paste0("\nStep ", step, ": baris", i, " = baris ",i, " dibagi ", pivot,"\n"))
+      print(x)
+      step = step + 1
+      idx[index] = pivot
+      cat("\nCommon factor yang didapatkan :", idx[index], "\n")
+      index = index + 1
+
+      for (j in i:n) {
+        if (i != j) {
+          ratio <- x[j, i] / x[i, i]
+          if(ratio == 0) next
+          x[j, ] <- x[j, ] - ratio * x[i, ]
+          cat(paste0("\nStep ", step,": baris ",j, " = ", -1*ratio, " * baris ", i, " + baris ", j, "\n"))
+          print(x)
+          step = step + 1
+        }
+      }
+    }
+
   det = 1
   if(change %% 2 == 1) {
     print("karena terjadi pertukaran 2 baris maka determinan dikalikan -1")

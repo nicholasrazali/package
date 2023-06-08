@@ -10,33 +10,12 @@ ui <- fluidPage(
   tags$head(
     tags$style(
       HTML("
-      .size{
-        width: 120px;
-      }
+        .reset-button {
+          text-align: right;
+        }
     ")
     )
   ),
-
-#### script ####
-  tags$script(HTML('
-    $(document).ready(function() {
-      Shiny.addCustomMessageHandler("change_matrix_size", function(message) {
-        var width = message.width * 40 + "px";
-        $(".size").css("width", width);
-      });
-
-      function setSavedWidth() {
-        $(".size").css("width", "50px");
-        console.log($(".size").css("width"));
-      }
-
-      Shiny.addCustomMessageHandler("setSavedWidth", function(message) {
-        setSavedWidth();
-      });
-    });
-  ')),
-
-#### /script ####
 
   titlePanel("Aljabar Linear"),
   sidebarLayout(
@@ -63,6 +42,7 @@ server <- function(input, output, session) {
         ##### determinan ######
         tabPanel("Determinan",
                  uiOutput("det_reset"),
+                 h4("ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
                  numericInput("det_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("det_submit", "Submit"),
 
@@ -71,13 +51,13 @@ server <- function(input, output, session) {
                  verbatimTextOutput("det_output_matrix"),
 
                  uiOutput("radio_det"),
-
                  verbatimTextOutput("determinan")),
 
         ##### invers ######
         tabPanel("Invers",
-                 numericInput("inv_rows", "Masukkan Jumlah Baris:", value = 2, min = 1, max = 5),
-                 numericInput("inv_cols", "Masukkan Jumlah Kolom:", value = 2, min = 1, max = 5),
+                 uiOutput("inv_reset"),
+                 h4("ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
+                 numericInput("inv_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("inv_submit", "Submit"),
 
                  uiOutput("inv_matrix_input"),
@@ -85,7 +65,6 @@ server <- function(input, output, session) {
                  verbatimTextOutput("inv_output_matrix"),
 
                  uiOutput("radio_inv"),
-
                  verbatimTextOutput("invers")),
 
         ##### hitung ######
@@ -189,9 +168,20 @@ server <- function(input, output, session) {
 
   #### reset mengganti tab ####
   observeEvent(input$nav_matrix,{
-    if(input$nav_matrix == "Invers"){
+    if(input$nav_matrix == "Determinan"){
+      updateNumericInput(session, "inv_ukuran", value = 2)
+      matrix_a(NULL)
+      hide("inv_input_matrix")
+      show("inv_submit")
+      hide("inv_reset_btn")
+      hide("inv_submit_btn")
+      hide("inv_radio")
+      hide("invers")
+      hide("inv_output_matrix")
+      hide("inv_matriks")
+      hide("inv_matrix_input")
+    } else if(input$nav_matrix == "Invers"){
       updateNumericInput(session, "det_ukuran", value = 2)
-      matrix_det(NULL)
       matrix_det_a(NULL)
       hide("det_input_matrix")
       show("det_submit")
@@ -200,93 +190,136 @@ server <- function(input, output, session) {
       hide("det_radio")
       hide("determinan")
       hide("det_output_matrix")
+      hide("det_matriks")
+      hide("det_matrix_input")
     }
-
   })
 
 
 
   ##### input matrix invers #####
   matrix_data <- reactiveVal(NULL)
-
   observeEvent(input$inv_submit, {
+    if(input$inv_ukuran > 5) return(showNotification("Ukuran tidak bisa melebihi 5 x 5", type = "error"))
+    else if(input$inv_ukuran < 1) return(showNotification("Ukuran minimal 1 x 1", type = "error"))
+
+    width <- paste0((input$inv_ukuran *40),"px")
     output$inv_matrix_input <- renderUI({
-      matrixInput(
-        inputId = "inv_input_matrix",
-        label = "Masukkan matriks:",
-        value = matrix_data(),
-        rows = list(extend = FALSE, names = FALSE),
-        cols = list(extend = FALSE, names = FALSE),
-        inputClass = "size",
-        class = "numeric",
-      )
-    })
-      session$sendCustomMessage(type = "change_matrix_size", message = list(
-        width = input$inv_cols,
-        height = input$inv_rows
+      list(
+        h5("Masukkan matriks",id = "id_matriks"),
+        div(
+          style = paste("width:", width),
+          matrixInput(
+            inputId = "inv_input_matrix",
+            value = matrix_data(),
+            rows = list(extend = FALSE, names = FALSE),
+            cols = list(extend = FALSE, names = FALSE),
+            class = "numeric",
+        )
       ))
+    })
 
-
-
-    matrix_data(matrix(0, nrow = input$inv_rows, ncol = input$inv_cols, dimnames = list(NULL, NULL)))
+    matrix_data(matrix("", nrow = input$inv_ukuran, ncol = input$inv_ukuran, dimnames = list(NULL, NULL)))
     output$inv_submit_matrix <-renderUI({
       actionButton("inv_submit_btn", "input matrix")
     })
-
-    session$sendCustomMessage(type = "setSavedWidth",NULL)
+    show("inv_matrix_input")
+    hide("inv_submit")
+    output$inv_reset <- renderUI({
+      div(
+        class = "reset-button",
+        actionButton("inv_reset_btn", "Reset")
+      )
+    })
   })
 
   matrix_a <- reactiveVal(NULL)
   observeEvent(input$inv_submit_btn, {
     mat <- c()
-    for (i in 1:(input$inv_rows * input$inv_cols)) {
+    for (i in 1:(input$inv_ukuran * input$inv_ukuran)) {
+      if(is.na(input$inv_input_matrix[[i]])) return(showNotification("Masukkan matrix terlebih dahulu", type = "error"))
       mat <- c(mat, input$inv_input_matrix[[i]])
     }
-    matrix_a(matrix(mat, nrow = input$inv_rows, ncol = input$inv_cols))
-
+    matrix_a(matrix(mat, nrow = input$inv_ukuran, ncol = input$inv_ukuran))
+    hide("inv_submit_btn")
     output$inv_output_matrix <- renderPrint({
       matrix_a()
     })
+    output$radio_inv <- renderUI(
+      radioButtons("inv_radio",
+        label = "Pilih metode",
+        choices = c("Row Reduction", "Adjoint Matrix"),
+        selected = "none",
+        inline = TRUE))
 
-    output$radio_inv <- renderUI(radioButtons("inv_radio",
-                                              label = "Pilih metode",
-                                              choices = c("Row Reduction", "Adjoint Matrix"),
-                                              selected = "Row Reduction",
-                                              inline = TRUE))
+    show("inv_output_matrix")
+    show("invers")
 
-    #### output akhir untuk Invers
+    output$invers <- renderPrint(
+      "Silahkan pilih metode"
+    )
+  })
+
+  observeEvent(input$inv_radio, {
     output$invers <- renderPrint(
       if(input$inv_radio == "Row Reduction"){
         invers_row_reduction(matrix_a())
       }
-      else {
+      else if(input$inv_radio == "Adjoint Matrix"){
         adjoint_matriks(matrix_a())
       }
     )
   })
 
+  observeEvent(input$inv_reset_btn, {
+    updateNumericInput(session, "inv_ukuran", value = 2)
+    matrix_a(NULL)
+    hide("inv_matriks")
+    hide("inv_input_matrix")
+    show("inv_submit")
+    hide("inv_reset_btn")
+    hide("inv_submit_btn")
+    hide("inv_radio")
+    hide("invers")
+    hide("inv_output_matrix")
+    hide("inv_matrix_input")
+  })
+
+
   ##### input matrix determinan #####
   matrix_det <- reactiveVal(NULL)
   observeEvent(input$det_submit, {
+    if(input$det_ukuran > 5) return(showNotification("Ukuran tidak bisa melebihi 5 x 5", type = "error"))
+    else if(input$det_ukuran < 1) return(showNotification("Ukuran minimal 1 x 1", type = "error"))
+
+    width <- paste0((input$det_ukuran *40),"px")
     output$det_matrix_input <- renderUI({
-      matrixInput(
-        inputId = "det_input_matrix",
-        label = "Masukkan matriks:",
-        value = matrix_data(),
-        rows = list(extend = FALSE, names = FALSE),
-        cols = list(extend = FALSE, names = FALSE),
-        inputClass = "size",
-        class = "numeric",
+      list(
+        h5("Masukkan matriks", id = "det_matriks"),
+        div(
+          style = paste("width:", width),
+          matrixInput(
+            inputId = "det_input_matrix",
+            value = matrix_det(),
+            rows = list(extend = FALSE, names = FALSE),
+            cols = list(extend = FALSE, names = FALSE),
+            class = "numeric",
+          )
+        )
       )
     })
-    matrix_data(matrix("", nrow = input$det_ukuran, ncol = input$det_ukuran, dimnames = list(NULL, NULL)))
+    matrix_det(matrix("", nrow = input$det_ukuran, ncol = input$det_ukuran, dimnames = list(NULL, NULL)))
     output$det_submit_matrix <-renderUI({
       actionButton("det_submit_btn", "input matrix")
     })
-    hide("det_submit")
 
+    show("det_matrix_input")
+    hide("det_submit")
     output$det_reset <- renderUI({
-      actionButton("det_reset_btn", "Reset")
+      div(
+        class = "reset-button",
+        actionButton("det_reset_btn", "Reset")
+      )
     })
   })
 
@@ -300,12 +333,12 @@ server <- function(input, output, session) {
     matrix_det_a(matrix(mat, nrow = input$det_ukuran, ncol = input$det_ukuran))
     hide("det_submit_btn")
 
-
-    output$radio_det <- renderUI(radioButtons("det_radio",
-                                              label = "Pilih metode",
-                                              choices = c("Row Reduction", "Cofactor"),
-                                              selected = "none",
-                                              inline = TRUE))
+    output$radio_det <- renderUI(
+      radioButtons("det_radio",
+          label = "Pilih metode",
+          choices = c("Row Reduction", "Cofactor"),
+          selected = "none",
+          inline = TRUE))
 
     output$det_output_matrix <- renderPrint({
       matrix_det_a()
@@ -331,8 +364,8 @@ server <- function(input, output, session) {
 
   observeEvent(input$det_reset_btn, {
     updateNumericInput(session, "det_ukuran", value = 2)
-    matrix_det(NULL)
     matrix_det_a(NULL)
+    hide("det_matriks")
     hide("det_input_matrix")
     show("det_submit")
     hide("det_reset_btn")
@@ -340,11 +373,8 @@ server <- function(input, output, session) {
     hide("det_radio")
     hide("determinan")
     hide("det_output_matrix")
+    hide("det_matrix_input")
   })
-
-
-
-
 
 
   #=== input matrix persamaan linear
