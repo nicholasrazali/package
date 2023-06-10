@@ -27,18 +27,34 @@ adjoint_matriks <- function(x) {
   print(x)
 
   cof_matriks <- matrix(0, nrow = n, ncol = n)
+  if(n == 2){
+    cat(paste0("\nTukar matriks[1][1] dengan matriks[2][2]\n"))
+    temp = x[1,1]
+    x[1,1] = x[2,2]
+    x[2,2] = temp
+    print(x)
 
-  for (i in 1:n) {
-    for (j in 1:n) {
-      minor <- x[-i, -j]
-      cat(paste0("\nMinor ",i,",",j,"\n"))
-      print(minor)
+    cat(paste0("\nMengganti tanda pada matriks[1][2] dengan matriks [2][1]\n"))
+    x[1,2] = -1 * x[1,2]
+    x[2,1] = -1 * x[2,1]
+    print(x)
 
-      cofactor = (-1)^(i+j) * det(minor)
-      cat(paste0("cofactor ",i, ",",j," = (-1)^(",i,"+",j,") * ",det(minor), " = ",(-1)^(i+j)," * ",det(minor)," = ",cofactor,"\n"))
-      cof_matriks[i, j] <- cofactor
-    }
+    adj_matriks <- x
+    cat("\nHasil adjoint matriks yang didapatkan \n")
+    print(adj_matriks)
   }
+  else{
+    for (i in 1:n) {
+      for (j in 1:n) {
+        minor <- x[-i, -j]
+        cat(paste0("\nMinor ",i,",",j,"\n"))
+        print(minor)
+
+        cofactor = (-1)^(i+j) * det(minor)
+        cat(paste0("cofactor ",i, ",",j," = (-1)^(",i,"+",j,") * ",det(minor), " = ",(-1)^(i+j)," * ",det(minor)," = ",cofactor,"\n"))
+        cof_matriks[i, j] <- cofactor
+      }
+    }
     cat("\nMatriks kofaktor\n")
     print(cof_matriks)
 
@@ -46,7 +62,11 @@ adjoint_matriks <- function(x) {
     cat("\nMelakukan transpose matriks kofaktor\n")
     print(adj_matriks)
 
+    cat("\nHasil adjoint matriks yang didapatkan \n")
+    print(adj_matriks)
+  }
+
   cat("\nHasil adjoint matriks yang didapatkan \n")
-  return(adj_matriks)
+  return(adjoint_matriks)
 }
 

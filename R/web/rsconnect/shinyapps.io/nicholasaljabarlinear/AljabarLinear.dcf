@@ -5,9 +5,9 @@ account: nicholasaljabarlinear
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9159236
-bundleId: 7320345
+bundleId: 7320410
 url: https://nicholasrazali.shinyapps.io/AljabarLinear/
-when: 1686217683.94839
-lastSyncTime: 1686217683.9484
+when: 1686219057.12529
+lastSyncTime: 1686219057.12534
 asMultiple: FALSE
 asStatic: FALSE
