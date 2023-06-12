@@ -43,21 +43,23 @@ interpolasi_polinomial <- function(x, y) {
   for (i in 1:n) {
     pivot <- augmented_mat[i, i]
     if (pivot == 0) {
-      if(i == n) return(cat("\n\nTerdapat banyak solusi"))
+      if(i == n) return(cat("\n\nTidak dapat menemukan interpolasi"))
       else{
         for (j in (i+1):n) {
-          if (abs(augmented_matrix[j, i]) != 0) {
-            augmented_matrix[c(i, j), ] <- augmented_matrix[c(j, i), ]
+          if (abs(augmented_mat[j, i]) != 0) {
+            augmented_mat[c(i, j), ] <- augmented_mat[c(j, i), ]
             cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",j, "\n"))
-            print(augmented_matrix)
+            print(augmented_mat)
             step = step + 1
             next
           }
-          if (j == n) return(cat("\n\nTerdapat banyak solusi"))
+          if (j == n) return(cat("\n\nTidak dapat menemukan interpolasi"))
         }
       }
     }
-    else augmented_mat[i, ] <- augmented_mat[i, ] / pivot
+
+    pivot <- augmented_mat[i, i]
+    augmented_mat[i, ] <- augmented_mat[i, ] / pivot
     if(pivot != 1){
       cat(paste0("\nStep ", step, ": baris ", i, " = baris ",i, " dibagi ", pivot,"\n"))
       print(augmented_mat)
@@ -87,6 +89,21 @@ interpolasi_polinomial <- function(x, y) {
     }
   }
   x <- augmented_mat[, n + 1]
+
+  cat("\nBentuk persamaan  = ")
+  if(x[1] != 0) cat(paste0(x[1]," "))
+
+  for(i in 2:length(x)){
+    if(x[i]==0) next
+    else if(x[i]<0) {
+      if(i == 2) cat(paste0("- ", -1*x[i],"x "))
+      else cat(paste0("- ", -1*x[i],"x^",i-1," "))
+    }else {
+      if(i == 2) cat(paste0("+ ", x[i],"x "))
+      else cat(paste0("+ ", x[i],"x^",i-1," "))
+    }
+  }
+
   cat("\n\nHasil persamaan yang didapatkan \n")
   return(x)
 }

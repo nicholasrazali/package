@@ -8,14 +8,14 @@
 #' penjumlahan tersebut akan dikuadratkan.
 #' @examples
 #' u <- c(1,2,1)
-#' norm_vector(u)
+#' norm_vektor(u)
 #' @param u variabel vektor
 #' @return Nilai panjang dari vektor
 #' @export
 
-norm_vector <- function(u){
+norm_vektor <- function(u){
   if(is.vector(u) == FALSE)stop("Variabel input harus dalam bentuk vektor")
-  cat("Vektor awal u : \n")
+  cat("Vektor awal: \n")
   print(u)
   cat("\nHasil vektor dipangkatkan 2\n")
   u2 = u^2

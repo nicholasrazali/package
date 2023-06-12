@@ -23,5 +23,33 @@ cross_product <- function(u, v) {
   cat(paste0(" = (",u[2]*v[3] - u[3]*v[2],", ",u[3]*v[1] - u[1]*v[3], ", ",u[1]*v[2] - u[2]*v[1],")\n"))
 
   cross = c(u[2]*v[3] - u[3]*v[2], u[3]*v[1] - u[1]*v[3], u[1]*v[2] - u[2]*v[1])
-  return(cross)
+
+  plot_u <- data.frame(x = c(0, u[1]), y = c(0, u[2]), z = c(0, u[3]))
+  plot_v <- data.frame(x = c(0, v[1]), y = c(0, v[2]), z = c(0, v[3]))
+  plot_cross <- data.frame(x = c(0, cross[1]), y = c(0, cross[2]), z = c(0, cross[3]))
+
+    p <- plot_ly() %>%
+      add_trace(
+        type = "scatter3d",
+        mode = "lines",
+        x = plot_u$x, y = plot_u$y, z = plot_u$z,
+        line = list(color = "blue"),
+        name = "Vektor u"
+      ) %>%
+      add_trace(
+        type = "scatter3d",
+        mode = "lines",
+        x = plot_v$x, y = plot_v$y, z = plot_v$z,
+        line = list(color = "red"),
+        name = "Vektor v"
+      ) %>%
+      add_trace(
+        type = "scatter3d",
+        mode = "lines",
+        x = plot_cross$x, y = plot_cross$y, z = plot_cross$z,
+        line = list(color = "green"),
+        name = "Vektor cross"
+      )
+
+  return(p)
 }

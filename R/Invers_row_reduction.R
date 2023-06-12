@@ -34,7 +34,9 @@ invers_row_reduction <- function(x) {
   for (i in 1:n) {
     pivot <- augmented_matrix[i, i]
     if (pivot == 0) {
-      if(i == n) return(cat("\n\nTerdapat banyak solusi"))
+      if(i == n) {
+        return(cat("\n\nMatriks tidak mempunyai invers"))
+      }
       else{
         for (j in (i+1):n) {
           if (abs(augmented_matrix[j, i]) != 0) {
@@ -42,13 +44,17 @@ invers_row_reduction <- function(x) {
             cat(paste0("\nStep ", step ,": tukar baris ",i, " dengan baris ",j, "\n"))
             print(augmented_matrix)
             step = step + 1
-            next
+            break
           }
-          if (j == n) return(cat("\n\nTerdapat banyak solusi"))
+          if (j == n) {
+            return(cat("\n\nMatriks tidak mempunyai invers"))
+          }
         }
       }
     }
-    else augmented_matrix[i, ] <- augmented_matrix[i, ] / pivot
+
+    pivot <- augmented_matrix[i, i]
+    augmented_matrix[i, ] <- augmented_matrix[i, ] / pivot
     if(pivot != 1){
       cat(paste0("\nStep ", step, ": baris ", i, " = baris ",i, " dibagi ", pivot,"\n"))
       print(augmented_matrix)

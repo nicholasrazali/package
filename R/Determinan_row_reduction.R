@@ -14,13 +14,14 @@
 #' @return Nilai determinan dari matriks
 #' @export
 
+
 determinan_row_reduction <- function(x){
   if(is.matrix(x) == FALSE) stop("variabel x harus dalam matriks")
   n <- nrow(x)
   m <- ncol(x)
   if(n!=m) stop("Ukuran jumlah baris dan kolom harus sama (matriks persegi)")
 
-  cat("Matriks awal\n")
+  cat(("Matriks awal\n"))
   print(x)
 
   step <- 1

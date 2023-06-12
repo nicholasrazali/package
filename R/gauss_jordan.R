@@ -53,7 +53,8 @@ gauss_jordan <- function(A, b) {
         }
       }
     }
-    else augmented_matrix[i, ] <- augmented_matrix[i, ] / pivot
+    pivot <- augmented_matrix[i, i]
+    augmented_matrix[i, ] <- augmented_matrix[i, ] / pivot
     if(pivot != 1){
       cat(paste0("\nStep ", step, ": baris ", i, " = baris ",i, " dibagi ", pivot,"\n"))
       print(augmented_matrix)

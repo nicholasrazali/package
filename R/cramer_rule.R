@@ -34,6 +34,7 @@ cramer_rule <- function(A,b){
 
   det <- det(A)
   cat("\nDeterminan matriks awal =", det, "\n")
+  if(det == 0) return(cat("\nKarena determinan matriks awal = 0 , maka terdapat banyak solusi"))
 
   dett <- c()
   for(i in 1:m){

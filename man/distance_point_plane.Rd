@@ -18,7 +18,9 @@ Nilai jarak dari 1 titik ke 1 bidang
 Fungsi ini akan melakukan pencarian nilai jarak antara 1 titik dan 1 bidang,
 }
 \details{
-Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 bidang.
+Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 bidang. DImana titik
+berada pada 3 dimensi (x,y,z) dan bidang dengan persamaan ax^3 + bx^2 + cx + d = 0 dituliskan
+menjadi bentuk vektor (a,b,c,d)
 }
 \examples{
 point <- c(1,-4,-3)

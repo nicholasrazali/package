@@ -1,23 +1,23 @@
 
-#' Pembentukan Adjoint Matriks
+#' Invers dengan adjoint Matriks
 #' @description
-#' Fungsi ini akan melakukan pembentukan adjoint matriks.
+#' Fungsi ini akan melakukan pencarian nilai invers dengan menggunakan adjoint matriks.
 #'
 #' @details
-#' Fungsi ini untuk melakukan pembentukan adjoint matriks, yaitu dengan membuat matriks kofaktor sesuai
+#' Fungsi ini untuk melakukan pencarian nilai invers dengan menggunakan adjoint matriks, yaitu dengan membuat matriks kofaktor sesuai
 #' dengan nilai dari kofaktor untuk baris dan kolom matriks tersebut kemudian dikalian dengan
 #' (-1) pangkat penjumlahan dari baris dan kolom tesebut. Setelah mendapatkan
 #' matriks kofaktor, selanjutnya melakukan transpose dari matriks kofaktor untuk mendapatkan
-#' adjoint matriks.
+#' adjoint matriks. Setelah itu melakukan perkalian dari 1/determinan matriks dengan adjoint matriks.
 #' @examples
 #' x <- matrix(c(0,3,2,1,-6,6,5,9,1),3,3)
-#' adjoint_matriks(x)
+#' invers_adjoint_matriks(x)
 #' @param x variabel matriks persegi
-#' @return Adjoint matriks
+#' @return Invers dengan metode adjoint matriks
 #' @export
 
 
-adjoint_matriks <- function(x) {
+invers_adjoint_matriks <- function(x) {
   if(is.matrix(x) == FALSE) stop("variabel x harus dalam matriks")
   n <- nrow(x)
   m <- ncol(x)
@@ -27,6 +27,7 @@ adjoint_matriks <- function(x) {
   print(x)
 
   cof_matriks <- matrix(0, nrow = n, ncol = n)
+  adj_matriks = 0
   if(n == 2){
     cat(paste0("\nTukar matriks[1][1] dengan matriks[2][2]\n"))
     temp = x[1,1]
@@ -66,7 +67,16 @@ adjoint_matriks <- function(x) {
     print(adj_matriks)
   }
 
-  cat("\nHasil adjoint matriks yang didapatkan \n")
-  return(adjoint_matriks)
+  cat(paste0("\nDeterminan matriks = ", det(x) ,"\n"))
+
+  if(det(x) == 0) return("Karena determinan = 0, maka matriks tidak mempunyai invers")
+
+  cat(paste0("\nInvers = 1/determinan(x) * adjoint_matriks\n"))
+
+  invers = 1/det(x) * adj_matriks
+
+  cat("\nHasil invers:\n")
+
+  return(invers)
 }
 

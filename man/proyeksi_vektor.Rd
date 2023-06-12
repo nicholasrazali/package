@@ -4,15 +4,15 @@
 \alias{proyeksi_vektor}
 \title{Proyeksi Vektor}
 \usage{
-proyeksi_vektor(u, a)
+proyeksi_vektor(a, b)
 }
 \arguments{
-\item{u}{vektor input pertama}
-
 \item{a}{vektor input pertama}
+
+\item{b}{vektor input pertama}
 }
 \value{
-Nilai proyeksi skalar dan proyeksi ortogonal.
+Plot vektor proyeksi dan proyeksi ortogonal.
 }
 \description{
 Fungsi ini akan melakukan pencarian nilai proyeksi skalar dan proyeksi ortogonal.
@@ -23,7 +23,7 @@ dimana untuk dua vektor yang tidak berhimpit sehingga salah satu vektor bisa
 diproyeksikan ke vektor lainnya.
 }
 \examples{
-u <- c(0,0,1)
-a <- c(0,2,2)
-proyeksi_vektor(u,a)
+a <- c(1,3)
+b <- c(6,2)
+proyeksi_vektor(a,b)
 }
