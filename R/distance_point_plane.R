@@ -29,17 +29,26 @@ distance_point_plane <- function(point, plane){
   y <- point[2]
   z <- point[3]
 
+  cat("Distance = |a*x0 + b*y0 + c*z0 + d|/sqrt(a^2 + b^2 + c^2)\n\n")
+  cat("a =",a,"\n")
+  cat("b =",b,"\n")
+  cat("c =",c,"\n")
+  cat("d =",d,"\n")
+  cat("x0 =",x,"\n")
+  cat("y0 =",y,"\n")
+  cat("z0 =",z,"\n\n")
+
   atas = abs(a*x + b*y + c*z + d)
-  cat(paste0("atas = |",a, "*",x, " + ",b, "*",y, " + ",c,"*",z, " + ",d, "|\n" ))
-  cat(paste0("     = |",a*x, " + ",b*y, " + ", c*z, " + ", d, "|\n"))
-  cat(paste0("     = |",a*x + b*y + c*z + d,"|\n" ))
-  cat(paste0("atas = ", atas, "\n"))
+  cat(paste0("|a*x0 + b*y0 + c*z0 + d |= |",a, "*",x, " + ",b, "*",y, " + ",c,"*",z, " + ",d, "|\n" ))
+  cat(paste0("                         = |",a*x, " + ",b*y, " + ", c*z, " + ", d, "|\n"))
+  cat(paste0("                         = |",a*x + b*y + c*z + d,"|\n" ))
+  cat(paste0("|a*x0 + b*y0 + c*z0 + d |= ", atas, "\n\n"))
 
   bawah = sqrt(a^2 + b^2 + c^2)
-  cat(paste0("\nbawah = sqrt(",a,"^2 + ",b,"^2 + ",c,"^2",")\n"))
-  cat(paste0("      = sqrt(",a^2, " + ",b^2, " + ", c^2, ")\n"))
-  cat(paste0("      = sqrt(",a^2 + b^2 + c^2,")\n"))
-  cat(paste0("bawah = ",bawah,"\n"))
+  cat(paste0("sqrt(a^2 + b^2 + c^2) = sqrt(",a,"^2 + ",b,"^2 + ",c,"^2",")\n"))
+  cat(paste0("                        = sqrt(",a^2, " + ",b^2, " + ", c^2, ")\n"))
+  cat(paste0("                        = sqrt(",a^2 + b^2 + c^2,")\n"))
+  cat(paste0("sqrt(a^2 + b^2 + c^2) = ",bawah,"\n"))
 
   distance <- atas/bawah
   cat(paste0("\nDistance = ",atas,"/",bawah," = ", distance,"\n"))

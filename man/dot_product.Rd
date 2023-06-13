@@ -4,17 +4,15 @@
 \alias{dot_product}
 \title{Dot Product Vektor}
 \usage{
-dot_product(u, v, alfa = 0)
+dot_product(u, v)
 }
 \arguments{
 \item{u}{vektor input pertama}
 
 \item{v}{vektor input pertama}
-
-\item{alfa}{besaran sudut antara vektor u dan vektor v, jika vektor berada di n-space maka alfa = 0}
 }
 \value{
-Nilai dot product dari 2 vektor
+Plot dari 2 vektor
 }
 \description{
 Fungsi ini akan melakukan pencarian nilai dot product vektor.
@@ -25,6 +23,5 @@ Fungsi ini untuk melakukan pencarian nilai dot product vektor.
 \examples{
 u <- c(0,0,1)
 v <- c(0,2,2)
-alfa <- 45
-dot_product(u,v,alfa)
+dot_product(u,v)
 }

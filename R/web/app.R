@@ -69,6 +69,7 @@ hide_invers <- function(session){
 hide_dotcross <- function(session){
   updateTextInput(session, "dot_vec", value = "")
   updateTextInput(session, "dot_vec_2", value = "")
+  hide("plot_cross_ui")
   hide("dotcross")
   hide("plot_cross")
   hide("dotcross_radio")
@@ -92,6 +93,7 @@ hide_interpolasi <- function(session){
 hide_hitvec <- function(session){
   updateTextInput(session, "hit_vec", value = "")
   updateTextInput(session, "hit_vec_2", value = "")
+  hide("plot_hitung_ui")
   hide("hitvec")
   hide("plot_hitung")
   hide("hitvec_radio")
@@ -105,6 +107,7 @@ hide_proyeksi <- function(session){
   updateTextInput(session, "proyeksi_vec", value = "")
   updateTextInput(session, "proyeksi_vec_2", value = "")
   hide("proyeksi")
+  hide("plot_proyeksi_ui")
   hide("proyeksi_2")
   hide("plot_proyeksi")
   hide("proyeksi_radio")
@@ -124,7 +127,7 @@ is_valid_fraction <- function(value) {
 }
 
 #### ui ####
-ui <- fluidPage(
+ui <- navbarPage(
   useShinyjs(),
   tags$head(
     tags$style(
@@ -132,27 +135,49 @@ ui <- fluidPage(
         .reset-button {
           text-align: right;
         }
-    ")
+
+        #footer {
+       background-color: #f8f8f8;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #555;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        }
+      ")
     )
   ),
-
-  titlePanel("Aljabar Linear"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("functions", "Pilih Jenis Materi", choices = c("Select", "Matrix", "Vektor")),
-
-    ),
-    mainPanel(
-      uiOutput("dynamicTabs"),
+  title = "Aljabar Linear",
+  tabPanel(
+    "Home",
+    h1("Home page")
+  ),
+  tabPanel(
+    "Topik",
+    sidebarLayout(
+      sidebarPanel(
+        selectInput("functions", "Pilih Jenis Materi", choices = c("Select", "Matrix", "Vektor")),
+        width = 3
+      ),
+      mainPanel(
+        uiOutput("dynamicTabs"),
+        width = 9
+      )
     )
   ),
+  tags$div(
+    class = "footer",
+    "©2023 Nicholas"
+  )
 )
 
 #### server ####
 server <- function(input, output, session) {
 
   output$dynamicTabs <- renderUI(
-    if(input$functions == "Matrix"){
+  if(input$functions == "Matrix"){
       #### matrix ####
       navbarPage(
         id = "nav_matrix",
@@ -162,7 +187,7 @@ server <- function(input, output, session) {
         ##### determinan ######
         tabPanel("Determinan",
                  uiOutput("det_reset"),
-                 h4("ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
+                 h4("Ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
                  numericInput("det_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("det_submit", "Submit"),
 
@@ -176,7 +201,7 @@ server <- function(input, output, session) {
         ##### invers ######
         tabPanel("Invers",
                  uiOutput("inv_reset"),
-                 h4("ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
+                 h4("Ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
                  numericInput("inv_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("inv_submit", "Submit"),
 
@@ -190,7 +215,7 @@ server <- function(input, output, session) {
         ##### hitung ######
         tabPanel("Perhitungan",
                  uiOutput("hit_reset"),
-                 h3("Masukkan matrix pertama"),
+                 h4("Masukkan matrix pertama"),
                  numericInput("hit_rows_1", "Masukkan Ukuran Baris:", value = 2, min = 1, max=5),
                  numericInput("hit_cols_1", "Masukkan Ukuran Kolom:", value = 2, min = 1, max=5),
                  actionButton("submit_1", "Submit"),
@@ -209,7 +234,7 @@ server <- function(input, output, session) {
         ##### persamaan linear ######
         tabPanel("Persamaan Linear",
                  uiOutput("pers_reset"),
-                 h4("ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
+                 h4("Ukuran matriks yang dimasukkan akan menghasilkan matriks n x n "),
                  numericInput("pers_ukuran", "Masukkan Ukuran Baris dan Kolom:", value = 2, min = 1, max = 5, width = "30%"),
                  actionButton("pers_submit", "Submit"),
 
@@ -228,8 +253,8 @@ server <- function(input, output, session) {
         ##### polinomial ######
         tabPanel("Polinomial",
                  uiOutput("poli_reset"),
-                 h5(tags$b("Masukkan koordinat x (pisahkan dengan koma)")),
-                 textInput("x_vec", label = NULL, width = "30%"),
+                 h5(tags$b("Masukkan koordinat x (x1, x2, x3, ...., xn)")),
+                 textInput("x_vec", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
                  actionButton("x_submit", "Submit"),
                  verbatimTextOutput("x_output_vector"),
 
@@ -247,12 +272,11 @@ server <- function(input, output, session) {
         title = NULL,
         header = NULL,
         footer = NULL,
-        ##### hitung #####
+        ##### hitung vektor #####
         tabPanel("Perhitungan",
                  uiOutput("hitvec_reset"),
-                 h5(tags$b("Masukkan vektor pertama (pisahkan dengan koma)")),
+                 h5(tags$b("Masukkan vektor pertama ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
                  textInput("hit_vec",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
-                 h6("minimal 2 dan maksimal 3"),
                  actionButton("hitvec_submit_1", "Submit"),
                  verbatimTextOutput("hitvec_output_vector_1"),
 
@@ -262,14 +286,13 @@ server <- function(input, output, session) {
                  uiOutput("radio_hitvec"),
 
                  verbatimTextOutput("hitvec"),
-                 plotlyOutput("plot_hitung")),
+                 uiOutput("plot_hitung_ui")),
 
         ##### proyeksi #####
         tabPanel("Proyeksi",
                  uiOutput("proyeksi_reset"),
-                 h5(tags$b("Masukkan vektor pertama (pisahkan dengan koma)")),
+                 h5(tags$b("Masukkan vektor pertama ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
                  textInput("proyeksi_vec",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
-                 h6("minimal 2 dan maksimal 3"),
                  actionButton("proyeksi_submit_1", "Submit"),
                  verbatimTextOutput("proyeksi_output_vector_1"),
 
@@ -280,14 +303,13 @@ server <- function(input, output, session) {
 
                  verbatimTextOutput("proyeksi"),
                  verbatimTextOutput("proyeksi_2"),
-                 plotlyOutput("plot_proyeksi")),
+                 uiOutput("plot_proyeksi_ui")),
 
         ##### dot cross ######
         tabPanel("Dot and Cross",
                  uiOutput("dotcross_reset"),
-                 h5(tags$b("Masukkan vektor pertama (pisahkan dengan koma)")),
+                 h5(tags$b("Masukkan vektor pertama ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
                  textInput("dot_vec",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
-                 h6("minimal 2 dan maksimal 3"),
                  actionButton("dot_submit_1", "Submit"),
                  verbatimTextOutput("dot_output_vector_1"),
 
@@ -297,7 +319,8 @@ server <- function(input, output, session) {
                  uiOutput("radio_dotcross"),
 
                  verbatimTextOutput("dotcross"),
-                 plotlyOutput("plot_cross")),
+                 uiOutput("plot_cross_ui")),
+
         ##### distance ######
         tabPanel("Distance",
                  uiOutput("dist_reset"),
@@ -324,8 +347,8 @@ server <- function(input, output, session) {
         ##### transformasi ######
         tabPanel("Transformasi Linear",
                  uiOutput("trans_reset"),
-                 h5(tags$b("Masukkan vektor (pisahkan dengan koma)")),
-                 textInput("trans_vec", label = NULL, width = "30%"),
+                 h5(tags$b("Masukkan vektor ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+                 textInput("trans_vec", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
                  actionButton("trans_submit", "Submit"),
                  verbatimTextOutput("trans_output_vector"),
 
@@ -343,13 +366,10 @@ server <- function(input, output, session) {
 
 
                  verbatimTextOutput("transformasi"),
-                 plotlyOutput("plot"))
-
+                 uiOutput("plot_ui"))
       )
 
 
-    }else {
-      h1("Perhitungan Aljabar Linear dengan Menggunakan R")
     }
   )
 
@@ -651,7 +671,8 @@ server <- function(input, output, session) {
     show("output_pers_vec")
 
     output$output_pers_vec <- renderUI(list(
-      textInput("pers_vec", "Masukkan vektor (pisahkan dengan koma)", ""),
+      h5(tags$b("Masukkan vektor hasil (pisahkan dengan koma)")),
+      textInput("pers_vec", label = NULL, placeholder = "contoh : 1,2,3"),
       actionButton("pers_submit_vec", "Submit")
     ))
   })
@@ -753,6 +774,16 @@ server <- function(input, output, session) {
 
 
   observeEvent(input$selesai, {
+    updateNumericInput(session, "baris_1", value = "")
+    updateNumericInput(session, "baris_2", value = "")
+    updateNumericInput(session, "baris_kali", value = "")
+    updateTextInput(session, "konstanta", value = "")
+    updateNumericInput(session, "baris_lipat", value = "")
+    updateNumericInput(session, "baris_lipat_2", value = "")
+    updateTextInput(session, "konst_lipat", value = "")
+
+
+
     if(input$pilihan == "Tukar Baris"){
       if(is.na(input$baris_1))  return(shinyalert("Kesalahan Input", "Masukkan baris terlebih dahulu", type = "error"))
       else if(input$baris_1 > nrow(matrix_pers_a())) return(shinyalert("Kesalahan Input", "Baris tidak ada", type = "error"))
@@ -775,7 +806,7 @@ server <- function(input, output, session) {
       else if(is.na(as.numeric(input$konstanta))) return(shinyalert("Kesalahan Input", "Terjadi kesalahan input bukan angka", type = "error"))
       else konstanta = (as.numeric(input$konstanta))
 
-      ket(paste0("Mengalikan baris ",input$baris_1, " sebesar ", konstanta))
+      ket(paste0("Mengalikan baris ",input$baris_kali, " sebesar ", konstanta))
       hasil_verbatim(tes$kali(input$baris_kali,konstanta))
 
     }
@@ -877,7 +908,7 @@ server <- function(input, output, session) {
     show("output_matrix_hit_2")
 
     output$output_matrix_hit_2 <- renderUI({
-      list(h3("Masukkan matrix kedua"),
+      list(h4("Masukkan matrix kedua"),
            numericInput("hit_rows_2", "Masukkan Jumlah Baris:", value = 2, min = 1, max=5),
            numericInput("hit_cols_2", "Masukkan Jumlah Kolom:", value = 2, min = 1, max=5),
            actionButton("submit_2", "Submit"),
@@ -975,7 +1006,6 @@ server <- function(input, output, session) {
   #### input vector hitung ####
   hit_vector <- reactiveVal(NULL)
   observeEvent(input$hitvec_submit_1, {
-
     vector_hit <- as.numeric(strsplit(input$hit_vec, ",")[[1]])
 
     if(length(vector_hit) == 0) return(shinyalert("Kesalahan Input", "Masukkan vektor terlebih dahulu", type = "error"))
@@ -983,13 +1013,13 @@ server <- function(input, output, session) {
       if(is.na(vector_hit[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_hit)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 buah", type = "error"))
-    else if(length(vector_hit)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_hit)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 elemen", type = "error"))
+    else if(length(vector_hit)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
     hit_vector(vector_hit)
 
 
     hide("hitvec_submit_1")
-    output$dot_output_vector_1 <- renderPrint({
+    output$hitvec_output_vector_1 <- renderPrint({
       hit_vector()
     })
     show("hitvec_output_vector_1")
@@ -999,7 +1029,7 @@ server <- function(input, output, session) {
     show("hitvec_reset")
 
     output$hitvec_reset <- renderUI({
-      div(
+        div(
         class = "reset-button",
         actionButton("hitvec_reset_btn", "Reset")
       )
@@ -1007,8 +1037,8 @@ server <- function(input, output, session) {
 
     output$output_hitvec_2 <- renderUI({
       list(
-        h5(tags$b("Masukkan vektor kedua (pisahkan dengan koma)")),
-        textInput("hit_vec_2",label = NULL, width = "30%"),
+        h5(tags$b("Masukkan vektor kedua ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+        textInput("hit_vec_2",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("hitvec_submit_2", "Submit")
       )
     })
@@ -1038,7 +1068,6 @@ server <- function(input, output, session) {
                    selected = "none",
                    inline = TRUE)
     )
-
     show("hitvec")
     output$hitvec <- renderPrint({
       "Silahkan pilih metode"
@@ -1047,8 +1076,14 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$hitvec_radio, {
+    show("plot_hitung_ui")
+
+    output$plot_hitung_ui <- renderUI(
+        plotlyOutput("plot_hitung") %>% withSpinner()
+    )
     show("plot_hitung")
-    output$plot_hitung <- renderPlotly({
+
+      output$plot_hitung <- renderPlotly({
       if(input$hitvec_radio == "Tambah"){
         tambah_vektor(hit_vector(),hit_vector_2())
       }
@@ -1056,6 +1091,7 @@ server <- function(input, output, session) {
         kurang_vektor(hit_vector(),hit_vector_2())
       }
     })
+
 
     output$hitvec <- renderPrint(
       if(input$hitvec_radio == "Tambah"){
@@ -1084,8 +1120,8 @@ server <- function(input, output, session) {
       if(is.na(vector_proyeksi[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_proyeksi)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 buah", type = "error"))
-    else if(length(vector_proyeksi)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_proyeksi)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 elemen", type = "error"))
+    else if(length(vector_proyeksi)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
     proyeksi_vector(vector_proyeksi)
 
 
@@ -1106,8 +1142,8 @@ server <- function(input, output, session) {
 
     output$output_proyeksi_2 <- renderUI({
       list(
-        h5(tags$b("Masukkan vektor kedua (pisahkan dengan koma)")),
-        textInput("proyeksi_vec_2",label = NULL, width = "30%"),
+        h5(tags$b("Masukkan vektor kedua ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+        textInput("proyeksi_vec_2",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("proyeksi_submit_2", "Submit")
       )
     })
@@ -1146,6 +1182,12 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$proyeksi_radio, {
+    show("plot_proyeksi_ui")
+
+    output$plot_proyeksi_ui <- renderUI(
+      plotlyOutput("plot_proyeksi") %>% withSpinner()
+    )
+
     show("proyeksi_2")
     show("plot_proyeksi")
     output$plot_proyeksi <- renderPlotly({
@@ -1186,8 +1228,8 @@ server <- function(input, output, session) {
       if(is.na(vector_dot[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_dot)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 buah", type = "error"))
-    else if(length(vector_dot)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_dot)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 elemen", type = "error"))
+    else if(length(vector_dot)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
     dot_vector(vector_dot)
 
 
@@ -1208,8 +1250,8 @@ server <- function(input, output, session) {
 
     output$output_dot_2 <- renderUI({
       list(
-        h5(tags$b("Masukkan vektor kedua (pisahkan dengan koma)")),
-        textInput("dot_vec_2",label = NULL, width = "30%"),
+        h5(tags$b("Masukkan vektor kedua ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+        textInput("dot_vec_2",label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("dot_submit_2", "Submit")
       )
     })
@@ -1248,9 +1290,18 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$dotcross_radio, {
+    show("plot_cross_ui")
+
+    output$plot_cross_ui <- renderUI(
+      plotlyOutput("plot_cross") %>% withSpinner()
+    )
+
     show("plot_cross")
     output$plot_cross <- renderPlotly({
-      if(input$dotcross_radio == "Cross Product"){
+      if(input$dotcross_radio == "Dot Product"){
+        dot_product(dot_vector(), dot_vector_2())
+      }
+      else if(input$dotcross_radio == "Cross Product"){
         if(length(dot_vector()) == 3) cross_product(dot_vector(), dot_vector_2())
       }
     })
@@ -1281,7 +1332,7 @@ server <- function(input, output, session) {
     for(i in 1:length(vector_x)){
       if(is.na(vector_x[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
-    if(length(vector_x)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_x)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
 
 
     x_vector(vector_x)
@@ -1304,8 +1355,8 @@ server <- function(input, output, session) {
 
     output$output_koor_y <- renderUI({
       list(
-        h5(tags$b("Masukkan koordinat y (pisahkan dengan koma)")),
-        textInput("y_vec", label = NULL, width = "30%"),
+        h5(tags$b("Masukkan koordinat y (y1, y2, y3, ..., yn)")),
+        textInput("y_vec", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("y_submit", "Submit")
       )
     })
@@ -1368,20 +1419,20 @@ server <- function(input, output, session) {
     output$input_vector_dist <- renderUI(
       if (input$dist_radio == "Jarak 2 titik") {
         list(
-          h5(tags$b("Masukkan titik pertama (pisahkan dengan koma)")),
-          textInput("vec_titik_1", label = NULL, width = "30%"),
+          h5(tags$b("Masukkan titik pertama ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+          textInput("vec_titik_1", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
           actionButton("titik_submit_1", "Submit")
         )
       } else if (input$dist_radio == "Jarak titik ke garis") {
         list(
-          h5(tags$b("Masukkan titik (pisahkan dengan koma)")),
-          textInput("vec_bidang_1", label = NULL, width = "30%"),
+          h5(tags$b("Masukkan titik ((x,y) karena untuk vektor 2 dimensi")),
+          textInput("vec_bidang_1", label = NULL, width = "30%", placeholder = "contoh : 1,2"),
           actionButton("bidang_submit_1", "Submit")
         )
       } else {
         list(
-          h5(tags$b("Masukkan titik (pisahkan dengan koma)")),
-          textInput("vec_titik", label = NULL, width = "30%"),
+          h5(tags$b("Masukkan titik ((x,y,z) karena untuk vektor 3 dimensi)")),
+          textInput("vec_titik", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
           actionButton("titik_submit", "Submit")
         )
       }
@@ -1399,8 +1450,8 @@ server <- function(input, output, session) {
       if(is.na(vector_titik_1[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_titik_1)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 buah", type = "error"))
-    else if(length(vector_titik_1)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_titik_1)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 elemen", type = "error"))
+    else if(length(vector_titik_1)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
 
     hide("titik_submit_1")
 
@@ -1414,8 +1465,8 @@ server <- function(input, output, session) {
 
     output$input_vector_dist_2 <- renderUI({
       list(
-        h5(tags$b("Masukkan titik kedua (pisahkan dengan koma)")),
-        textInput("vec_titik_2", label = NULL, width = "30%"),
+        h5(tags$b("Masukkan titik kedua ((x,y) untuk vektor 2 dimensi / (x,y,z) untuk vektor 3 dimensi)")),
+        textInput("vec_titik_2", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("titik_submit_2", "Submit")
       )
     })
@@ -1437,7 +1488,7 @@ server <- function(input, output, session) {
       if(is.na(vector_bidang_1[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_bidang_1) != 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor harus 2 buah", type = "error"))
+    if(length(vector_bidang_1) != 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor harus 2 elemen", type = "error"))
 
     hide("bidang_submit_1")
 
@@ -1454,8 +1505,8 @@ server <- function(input, output, session) {
 
     output$input_vector_dist_2 <- renderUI({
       list(
-        h5(tags$b("Masukkan garis (pisahkan dengan koma)")),
-        textInput("vec_bidang_2", label = NULL, width = "30%"),
+        h5(tags$b("Masukkan koefisien garis ((a,b,c) dari persamaan ax +by + c = 0 ))")),
+        textInput("vec_bidang_2", label = NULL, width = "30%", placeholder = "contoh : 1,2,3"),
         actionButton("bidang_submit_2", "Submit")
       )
     })
@@ -1477,7 +1528,7 @@ server <- function(input, output, session) {
       if(is.na(vector_titik[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_titik) != 3) return(shinyalert("Kesalahan Input", "Banyaknya vektor harus 3 buah", type = "error"))
+    if(length(vector_titik) != 3) return(shinyalert("Kesalahan Input", "Banyaknya vektor harus 3 elemen", type = "error"))
 
     hide("titik_submit")
 
@@ -1495,8 +1546,8 @@ server <- function(input, output, session) {
     output$input_vector_dist_2 <- renderUI({
       list(
 
-        h5(tags$b("Masukkan bidang (pisahkan dengan koma)")),
-        textInput("vec_bidang", label = NULL, width = "30%"),
+        h5(tags$b("Masukkan koefisien bidang ((a,b,c,d) dari persamaan ax +by + cz + d = 0 )")),
+        textInput("vec_bidang", label = NULL, width = "30%", placeholder = "contoh : 1,2,3,4"),
         actionButton("bidang_submit", "Submit")
       )
     })
@@ -1541,7 +1592,7 @@ server <- function(input, output, session) {
       if(is.na(vector_bidang_2[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_bidang_2) != 3) return(shinyalert("Kesalahan Input", "Banyaknya vektor garis harus 3 buah", type = "error"))
+    if(length(vector_bidang_2) != 3) return(shinyalert("Kesalahan Input", "Banyaknya vektor garis harus 3 elemen", type = "error"))
 
     hide("bidang_submit_2")
 
@@ -1563,7 +1614,7 @@ server <- function(input, output, session) {
       if(is.na(vector_bidang[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_bidang) != 4) return(shinyalert("Kesalahan Input", "Banyaknya vektor bidang harus 4 buah", type = "error"))
+    if(length(vector_bidang) != 4) return(shinyalert("Kesalahan Input", "Banyaknya vektor bidang harus 4 elemen", type = "error"))
 
     hide("bidang_submit")
 
@@ -1628,8 +1679,8 @@ server <- function(input, output, session) {
       if(is.na(vector_trans[[i]])) return(shinyalert("Kesalahan Input", "Terdapat kesalahan input bukan angka", type = "error"))
     }
 
-    if(length(vector_trans)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 buah", type = "error"))
-    else if(length(vector_trans)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 buah", type = "error"))
+    if(length(vector_trans)>3) return(shinyalert("Kesalahan Input", "Banyaknya vektor maksimal 3 elemen", type = "error"))
+    else if(length(vector_trans)< 2) return(shinyalert("Kesalahan Input", "Banyaknya vektor minimal 2 elemen", type = "error"))
 
     hide("trans_submit")
 
@@ -1731,10 +1782,15 @@ server <- function(input, output, session) {
       reflection_vector(trans_vector(),refleksi_vector())
     )
 
+    show("plot_ui")
+
+    output$plot_ui <- renderUI(
+      plotlyOutput("plot") %>% withSpinner()
+    )
+
     output$plot <- renderPlotly({
       reflection_vector(trans_vector(),refleksi_vector())
     })
-
 
     show("plot")
     show("transformasi")
@@ -1760,6 +1816,12 @@ server <- function(input, output, session) {
     })
 
     show("proyeksi_output_vector")
+
+    show("plot_ui")
+
+    output$plot_ui <- renderUI(
+      plotlyOutput("plot") %>% withSpinner()
+    )
 
     output$plot <- renderPlotly({
       projection_vector(trans_vector(),proyeks_vector())
@@ -1791,12 +1853,18 @@ server <- function(input, output, session) {
 
     show("kontraksi_output_vector")
 
+    show("plot_ui")
+
+    output$plot_ui <- renderUI(
+      plotlyOutput("plot") %>% withSpinner()
+    )
+
     output$plot <- renderPlotly({
       contraction_dilatation(trans_vector(),kontraksi_vector())
     })
 
     output$transformasi <- renderPrint(
-      contraction_dilatation(trans_vector(),kontraksi_vector())
+       contraction_dilatation(trans_vector(),kontraksi_vector())
     )
     show("plot")
     show("transformasi")
@@ -1817,6 +1885,12 @@ server <- function(input, output, session) {
     show("rotasi_output_vector_alfa")
 
     if(length(trans_vector()) == 2){
+      show("plot_ui")
+
+      output$plot_ui <- renderUI(
+        plotlyOutput("plot") %>% withSpinner()
+      )
+
       output$plot <- renderPlotly({
         rotation_vector(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
       })
@@ -1859,28 +1933,18 @@ server <- function(input, output, session) {
 
     show("rotasi_output_vector")
 
+    show("plot_ui")
+
+    output$plot_ui <- renderUI(
+      plotlyOutput("plot") %>% withSpinner()
+    )
+
     output$plot <- renderPlotly({
-      if (input$trans_radio == "Refleksi") {
-        reflection_vector(trans_vector(),refleksi_vector())
-      } else if (input$trans_radio == "Rotasi") {
         rotation_vector(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
-      } else if(input$trans_radio == "Proyeksi"){
-        projection_vector(trans_vector(),proyeks_vector())
-      } else if(input$trans_radio == "Kontraksi/Dilatasi") {
-        contraction_dilatation(trans_vector(),kontraksi_vector())
-      }
     })
 
     output$transformasi <- renderPrint(
-      if (input$trans_radio == "Refleksi") {
-        reflection_vector(trans_vector(),refleksi_vector())
-      } else if (input$trans_radio == "Rotasi") {
         rotation_vector(trans_vector(),rotasi_vector_alfa(),rotasi_vector())
-      } else if(input$trans_radio == "Proyeksi"){
-        projection_vector(trans_vector(),proyeks_vector())
-      } else if (input$trans_radio == "Kontraksi/Dilatasi"){
-        contraction_dilatation(trans_vector(),kontraksi_vector())
-      }
     )
     show("plot")
     show("transformasi")
@@ -1894,6 +1958,7 @@ server <- function(input, output, session) {
     updateTextInput(session, "trans_vec", value = "")
     hide("trans_reset_btn")
     hide("transformasi")
+    hide("plot_ui")
     hide("plot")
     hide("refleksi_output_vector")
     hide("proyeksi_output_vector")
@@ -1901,17 +1966,12 @@ server <- function(input, output, session) {
     hide("rotasi_output_vector")
     hide("rotasi_output_vector_alfa")
     hide("rotasi_axis_input")
-
     hide("trans_output_vector")
     hide("trans_radio")
     hide("input_info_trans")
     show("trans_submit")
 
   })
-
-
-
-
 
 }
 

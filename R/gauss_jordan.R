@@ -1,7 +1,8 @@
 
 #' Eliminasi Gauss-Jordan
 #' @description
-#' Fungsi ini akan melakukan elimanasi Gauss-Jordan untuk menyelesaikan sistem persamaan linear yang disertai dengan langkah pengerjaannya.
+#' Fungsi ini akan melakukan elimanasi Gauss-Jordan untuk menyelesaikan
+#' sistem persamaan linear yang disertai dengan langkah pengerjaannya.
 #'
 #' @details
 #' Fungsi ini untuk melakukan penyelesaian sistem persamaan linear dengan menggunakan eliminasi Gauss-Jordan.

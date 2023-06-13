@@ -29,17 +29,24 @@ distance_point_line <- function(point, line){
   x <- point[1]
   y <- point[2]
 
+  cat("Distance = |a*x0 + b*y0 + c|/sqrt(a^2 + b^2)\n\n")
+  cat("a =",a,"\n")
+  cat("b =",b,"\n")
+  cat("c =",c,"\n")
+  cat("x0 =",x,"\n")
+  cat("y0 =",y,"\n")
+
   atas = abs(a*x + b*y + c)
-  cat(paste0("atas = |",a, "*",x, " + ",b, "*",y, " + ",c,"|\n" ))
-  cat(paste0("     = |",a*x, " + ",b*y, " + ", c, "|\n"))
-  cat(paste0("     = |",a*x + b*y + c,"|\n" ))
-  cat(paste0("atas = ", atas, "\n"))
+  cat(paste0("|a*x0 + b*y0 + c| = |",a, "*",x, " + ",b, "*",y, " + ",c,"|\n" ))
+  cat(paste0("                  = |",a*x, " + ",b*y, " + ", c, "|\n"))
+  cat(paste0("                  = |",a*x + b*y + c,"|\n" ))
+  cat(paste0("|a*x0 + b*y0 + c| = ", atas, "\n\n"))
 
   bawah = sqrt(a^2 + b^2)
-  cat(paste0("\nbawah = sqrt(",a,"^2 + ",b,"^2",")\n"))
-  cat(paste0("      = sqrt(",a^2, " + ",b^2, ")\n"))
-  cat(paste0("      = sqrt(",a^2 + b^2,")\n"))
-  cat(paste0("bawah = ",bawah,"\n"))
+  cat(paste0("sqrt(a^2 + b^2) = sqrt(",a,"^2 + ",b,"^2",")\n"))
+  cat(paste0("                = sqrt(",a^2, " + ",b^2, ")\n"))
+  cat(paste0("                = sqrt(",a^2 + b^2,")\n"))
+  cat(paste0("sqrt(a^2 + b^2) = ",bawah,"\n"))
 
   distance <- atas/bawah
   cat(paste0("\nDistance = ",atas,"/",bawah," = ", distance,"\n"))

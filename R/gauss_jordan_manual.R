@@ -38,7 +38,7 @@ gauss_jordan_manual <- function(A,b){
   cat("Matriks awal\n")
   print(A)
 
-  x   <<- cbind(A, b)
+  x <<- cbind(A, b)
 
   cat("\nStep 1: Menjadikan Augmented Matriks\n")
   print(x)

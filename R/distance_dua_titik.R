@@ -34,7 +34,7 @@ distance_dua_titik <- function(point1, point2){
   cat(")\n")
 
   dif2 = dif^2
-  cat(paste0("\ndif^2 = ",dif2[1]))
+  cat(paste0("\ndif^2 = (",dif2[1]))
   for(i in 2:length(dif2)){
     cat(paste0(", ", dif2[i]))
   }
