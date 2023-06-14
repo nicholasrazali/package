@@ -5,11 +5,20 @@
 #'
 #' @details
 #' Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 garis DImana titik
-#' berada pada 2 dimensi (x,y) dan bidang dengan persamaan ax^2 + bx + c = 0 dituliskan
-#' menjadi bentuk vektor (a,b,c)
+#' berada pada 2 dimensi (x,y) dan garis dengan persamaan ax^2 + bx + c = 0 dituliskan
+#' menjadi bentuk vektor (a,b,c).
+#'
+#' Contoh jika ingin mencari jarak pada titik (1,2) dan persamaan garis 2x^2 + x - 3 = 0, maka untuk garis dituliskan menjadi
+#' (2,1,-3), maka untuk menggunakan fungsi ini dengan:
+#'
+#' point <- c(1,2)
+#'
+#' line <- c(2,1,-3)
+#'
+#' distance_point_line(point,line)
 #' @examples
-#' point <- c(-1,2)
-#' line <- c(3,-4,9)
+#' point <- c(1,2)
+#' line <- c(2,1,-3)
 #' distance_point_line(point, line)
 #' @param point vektor dari titik
 #' @param line vektor dari garis

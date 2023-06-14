@@ -25,7 +25,6 @@
 #' @param alfa besaran sudut
 #' @param axis sumbu rotasi terhadap vektor yang akan dilakukan
 #' @return Plot hasil transformasi rotasi
-#' @import plotly
 #' @export
 
 rotation_vector <- function(A, alfa, axis = NULL){

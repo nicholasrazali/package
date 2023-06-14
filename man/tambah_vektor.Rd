@@ -12,18 +12,18 @@ tambah_vektor(u, v)
 \item{v}{vektor input kedua}
 }
 \value{
-Nilai penjumlahan dari vektor u dan vektor v.
+Plot penjumlahan dari vektor u dan vektor v.
 }
 \description{
-Fungsi ini akan melakukan penjumlahan dari 2 vektor dan menghasilkan hasil grafik.
+Fungsi ini akan melakukan penjumlahan dari 2 vektor dan menghasilkan hasil plot grafik.
 }
 \details{
 Fungsi ini untuk menghitung penjumlahan dari 2 vektor yang diinput.
-Dimana dilakukan pengecekan terhadap jumlah data dari vektor yang dimasukkan. Kemudian hasil akhir
-akan ditampilkan juga dalam bentuk grafik.
+Dimana dilakukan pengecekan terhadap jumlah elemen dari vektor yang dimasukkan. Kemudian hasil akhir
+akan ditampilkan juga dalam bentuk plot grafik.
 }
 \examples{
-u <- c(1:4)
-v <- c(5:8)
+u <- c(1,2)
+v <- c(5,0)
 tambah_vektor(u,v)
 }

@@ -18,11 +18,13 @@ Nilai jarak dari 2 titik
 Fungsi ini akan melakukan pencarian nilai jarak antara 2 titik.
 }
 \details{
-Fungsi ini untuk melakukan pencarian nilai jarak antara 2 titik.
-pada matriks.
+Fungsi ini untuk melakukan pencarian nilai jarak antara 2 titik, dengan melakukan
+pengurangan terhadap 2 vektor, kemudian hasil pengurangan dipangkatkan 2, dan dijumlahkan
+untuk hasil dari pangkat tersebut. Terakhir untuk mendapatkan nilai jarak dengan
+kuadrat dari hasil tersebut.
 }
 \examples{
-point1 <- c(1,2,-2,-3)
-point2 <- c(2,4,-4,-7)
+point1 <- c(1,2,-2)
+point2 <- c(2,4,-4)
 distance_dua_titik(point1, point2)
 }

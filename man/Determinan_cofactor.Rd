@@ -17,12 +17,13 @@ determinan_cofactor(x, n = 1, by_row = TRUE)
 Nilai determinan dari matriks
 }
 \description{
-Fungsi ini akan melakukan pencarian nilai determinan dari suatu matriks persegi dengan menggunakan metode kofaktor dan disertai dengan langkah pengerjaannya.
+Fungsi ini akan melakukan pencarian nilai determinan dari
+suatu matriks persegi dengan menggunakan metode kofaktor dan disertai dengan langkah pengerjaannya.
 }
 \details{
-Fungsi ini untuk melakukan pencarian nilai determinan dengan menggunakan metode ekspansi kofaktor, Metode
-ekspansi kofaktor dilakukan dengan cara melakukan ekspansi baris atau ekspansi kolom
-pada matriks.
+Fungsi ini untuk melakukan pencarian nilai determinan dengan menggunakan
+metode ekspansi kofaktor, Metode ekspansi kofaktor dilakukan dengan cara
+melakukan ekspansi baris atau ekspansi kolom pada matriks.
 }
 \examples{
 x <- matrix(c(0,3,2,1,-6,6,5,9,1),3,3)

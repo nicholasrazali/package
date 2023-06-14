@@ -4,11 +4,13 @@
 #' Fungsi ini akan melakukan pencarian nilai jarak antara 2 titik.
 #'
 #' @details
-#' Fungsi ini untuk melakukan pencarian nilai jarak antara 2 titik.
-#' pada matriks.
+#' Fungsi ini untuk melakukan pencarian nilai jarak antara 2 titik, dengan melakukan
+#' pengurangan terhadap 2 vektor, kemudian hasil pengurangan dipangkatkan 2, dan dijumlahkan
+#' untuk hasil dari pangkat tersebut. Terakhir untuk mendapatkan nilai jarak dengan
+#' kuadrat dari hasil tersebut.
 #' @examples
-#' point1 <- c(1,2,-2,-3)
-#' point2 <- c(2,4,-4,-7)
+#' point1 <- c(1,2,-2)
+#' point2 <- c(2,4,-4)
 #' distance_dua_titik(point1, point2)
 #' @param point1 vektor dari titik pertama
 #' @param point2 vektor dari titik kedua
@@ -17,6 +19,7 @@
 
 distance_dua_titik <- function(point1, point2){
   if(is.vector(point1) == FALSE || is.vector(point2) == FALSE) stop("Point harus merupakan vektor")
+  else if(length(point1)<1 || length(point1)>3) stop("Vektor yang dimasukkan harus berupa vektor 2 dimensi atau 3 dimensi")
   else if(length(point1) != length(point2)) stop("Ukuran vektor point harus sama")
   dif = c()
 

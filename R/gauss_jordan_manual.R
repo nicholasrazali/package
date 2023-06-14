@@ -7,7 +7,25 @@
 #' Fungsi ini untuk melakukan penyelesaian sistem persamaan linear dengan menggunakan eliminasi Gauss-Jordan.
 #' Proses eliminasi Gauss-Jordan dilakukan sesuai dengan input fungsi yang diberikan, terdiri dari tukar() untuk
 #' menukar 2 baris, kali() untuk mengalikan baris tertentu dengan nilai yang diberikan, lipat() untuk
-#' menjumlahkan barsi, serta hasil() untuk melihat hasil akhir yang diberikan.
+#' menjumlahkan satu baris dengan baris lainnya sebesar nilai yang diberikan, serta hasil()
+#' untuk melihat hasil akhir yang diberikan.
+#'
+#' Untuk menggunakan function ini kita perlu melakukan deklarasi terlebih dahulu ke suatu variabel
+#'
+#' contohnya:
+#'
+#' gauss <- gauss_jordan_manual(matrix , vektor)
+#'
+#' kemudian untuk melakukan eliminasi gauss jordan dengan
+#'
+#' gauss$tukar(1,2) berarti kita menukar elemen pada baris 1 dengan elmen pada baris 2
+#'
+#' gauss$kali(1,-1) berarti kita mengalikan semua elemen pada baris 1 sebesar -1
+#'
+#' gauss$lipat(1,2,-1) berarti kita menjumlahkan elemen pada baris 2 sebesar -1 dikalikan dengan elemen pada baris 1
+#'
+#' gauss$hasil() berarti kita ingin melihat nilai terakhir pada matriks
+#'
 
 #' @examples
 #' A <- matrix(c(1,1,0,0,-1,2,1,0,1),3,3)
@@ -40,7 +58,7 @@ gauss_jordan_manual <- function(A,b){
 
   x <<- cbind(A, b)
 
-  cat("\nStep 1: Menjadikan Augmented Matriks\n")
+  cat("\nMenjadikan Augmented Matriks\n")
   print(x)
 
   list(

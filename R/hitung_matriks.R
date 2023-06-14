@@ -1,10 +1,16 @@
 
 #' Menghitung Operasi Dasar Matriks
 #' @description
-#' Fungsi ini akan melakukan perhitungan operasi dasar dari 2 matriks berupa penjumlahan, pengurangan, dan perkalian jika memenuhi syarat seperti jumlah baris dan jumlah kolom yang sesuai.
+#' Fungsi ini akan melakukan perhitungan operasi dasar dari 2 matriks
+#' berupa penjumlahan, pengurangan, dan perkalian matriks jika memenuhi syarat seperti jumlah baris dan jumlah kolom yang sesuai.
 #'
 #' @details
-#' Fungsi ini untuk menghitung penjumlahan, pengurangan dan perkalian dari 2 matrix yang diinput. Dimana dilakukan pengecekan terhadap jumlah baris dan jumlah kolom dari kedua matriks, jika memiliki jumlah baris dan jumlah kolom yang sama maka dapat dilakukan perhitungan penjumlahan dan pengurangan dari kedua matriks. Jika jumlah kolom pada matriks pertama bernilai sama dengan jumlah baris pada matriks kedua maka dapat dilakukan perhitungan perkalian kedua matriks.
+#' Fungsi ini untuk menghitung penjumlahan, pengurangan dan perkalian dari 2 matrix yang diinput.
+#' Dimana dilakukan pengecekan terhadap jumlah baris dan jumlah kolom dari kedua matriks,
+#' jika memiliki jumlah baris dan jumlah kolom yang sama maka dapat dilakukan perhitungan
+#' penjumlahan dan pengurangan dari kedua matriks. Jika jumlah kolom pada matriks pertama
+#' bernilai sama dengan jumlah baris pada matriks kedua maka dapat dilakukan perhitungan
+#' perkalian kedua matriks.
 #' @examples
 #' x <- matrix(1:4,2,2)
 #' y <- matrix(5:8,2,2)

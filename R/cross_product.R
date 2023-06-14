@@ -1,18 +1,18 @@
 
 #' Cross Product Vektor
 #' @description
-#' Fungsi ini akan melakukan pencarian nilai dot product vektor.
+#' Fungsi ini akan melakukan pencarian cross product vektor.
 #'
 #' @details
-#' Fungsi ini untuk melakukan pencarian nilai dot product vektor.
-#' pada matriks.
+#' Fungsi ini untuk melakukan pencarian cross product vektor, dengan syarat bahwa
+#' vektor harus berada pada 3 dimensi. Kemudian juga akan ditampilkan ke dalam plot grafik.
 #' @examples
 #' u <- c(0,0,1)
 #' v <- c(0,2,2)
 #' cross_product(u,v)
 #' @param u vektor input pertama
 #' @param v vektor input pertama
-#' @return Nilai cross product dari 2 vektor
+#' @return Plot cross product dari 2 vektor
 #' @export
 
 cross_product <- function(u, v) {

@@ -23,7 +23,6 @@
 #' @param A vektor input yang ingin dilakukan transformasi refleksi
 #' @param to refleksi terhadap vektor yang akan dilakukan
 #' @return Plot hasil transformasi refleksi
-#' @import plotly
 #' @export
 
 

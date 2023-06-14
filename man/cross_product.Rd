@@ -12,14 +12,14 @@ cross_product(u, v)
 \item{v}{vektor input pertama}
 }
 \value{
-Nilai cross product dari 2 vektor
+Plot cross product dari 2 vektor
 }
 \description{
-Fungsi ini akan melakukan pencarian nilai dot product vektor.
+Fungsi ini akan melakukan pencarian cross product vektor.
 }
 \details{
-Fungsi ini untuk melakukan pencarian nilai dot product vektor.
-pada matriks.
+Fungsi ini untuk melakukan pencarian cross product vektor, dengan syarat bahwa
+vektor harus berada pada 3 dimensi. Kemudian juga akan ditampilkan ke dalam plot grafik.
 }
 \examples{
 u <- c(0,0,1)

@@ -18,10 +18,11 @@ Plot dari 2 vektor
 Fungsi ini akan melakukan pencarian nilai dot product vektor.
 }
 \details{
-Fungsi ini untuk melakukan pencarian nilai dot product vektor.
+Fungsi ini untuk melakukan pencarian nilai dot product vektor, kemudian menghitung
+nilai dari sudut antara 2 vektor dan akan menampilkan plot grafik dari 2 vektor yang dimasukkan.
 }
 \examples{
-u <- c(0,0,1)
-v <- c(0,2,2)
+u <- c(3,0)
+v <- c(4,4)
 dot_product(u,v)
 }

@@ -1,11 +1,16 @@
 
 #' Perkalian Matriks dengan Langkah
 #' @description
-#' Fungsi ini akan melakukan perhitungan perkalian terhadap 2 matriks yang disertai dengan langkah untuk mendapatkan hasilnya.
+#' Fungsi ini akan melakukan perhitungan perkalian terhadap 2 matriks
+#' yang disertai dengan langkah untuk mendapatkan hasilnya.
 #'
 #' @details
-#' Fungsi ini untuk menghitung perkalian dari 2 matrix yang diinput. Dimana dilakukan pengecekan terhadap jumlah baris dan jumlah kolom dari kedua matriks,jika jumlah kolom pada matriks pertama bernilai sama dengan jumlah baris pada matriks kedua maka dapat dilakukan perhitungan perkalian kedua matriks.
-#' Untuk langkah yang dihasilkan menunjukkan perkalian setiap elemen baris pada matriks pertama dengan setiap elemen kolom pada matriks kedua, dan juga akan menunjukan hasil perkalian tersebut.
+#' Fungsi ini untuk menghitung perkalian dari 2 matrix yang diinput.
+#' Dimana dilakukan pengecekan terhadap jumlah baris dan jumlah kolom dari kedua matriks,
+#' jika jumlah kolom pada matriks pertama bernilai sama dengan jumlah baris pada matriks
+#' kedua maka dapat dilakukan perhitungan perkalian kedua matriks. Untuk langkah yang
+#' dihasilkan menunjukkan perkalian setiap elemen baris pada matriks pertama dengan
+#' setiap elemen kolom pada matriks kedua, dan juga akan menunjukan hasil perkalian tersebut.
 #' @examples
 #' x <- matrix(1:4,2,2)
 #' y <- matrix(5:8,2,2)

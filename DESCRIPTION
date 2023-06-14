@@ -3,9 +3,8 @@ Type: Package
 Title: Package for aljebra linear
 Version: 0.1.0
 Author: Nicholas Razali
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Maintainer: Nicholas Razali <nicholasrazalii@gmail.com>
+Description: This package provides tools and functions for understanding linear algebra concepts. It offers a range of functions for performing operations such as matrix manipulation, solving linear equations, linear transformation, and more. The package aims to facilitate learning and practical applications of linear algebra.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

@@ -1,22 +1,23 @@
 
 #' Menghitung Penjumlahan 2 vektor
 #' @description
-#' Fungsi ini akan melakukan penjumlahan dari 2 vektor dan menghasilkan hasil grafik.
+#' Fungsi ini akan melakukan penjumlahan dari 2 vektor dan menghasilkan hasil plot grafik.
 #' @details
 #' Fungsi ini untuk menghitung penjumlahan dari 2 vektor yang diinput.
-#' Dimana dilakukan pengecekan terhadap jumlah data dari vektor yang dimasukkan. Kemudian hasil akhir
-#' akan ditampilkan juga dalam bentuk grafik.
+#' Dimana dilakukan pengecekan terhadap jumlah elemen dari vektor yang dimasukkan. Kemudian hasil akhir
+#' akan ditampilkan juga dalam bentuk plot grafik.
 #' @examples
-#' u <- c(1:4)
-#' v <- c(5:8)
+#' u <- c(1,2)
+#' v <- c(5,0)
 #' tambah_vektor(u,v)
 #' @param u vektor input pertama
 #' @param v vektor input kedua
-#' @return Nilai penjumlahan dari vektor u dan vektor v.
+#' @return Plot penjumlahan dari vektor u dan vektor v.
 #' @export
 
 tambah_vektor <- function(u, v){
   if(!is.vector(u) || !is.vector(v))stop("Input data harus berupa vektor")
+  else if(length(u)<1 || length(u)>3) stop("Vektor yang dimasukkan harus berupa vektor 2 dimensi atau 3 dimensi")
   else if(length(u) != length(v)) stop("Jumlah data vektor yang dimasukkan harus sama")
 
   cat("Penjumlahan = (")

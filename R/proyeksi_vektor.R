@@ -1,12 +1,13 @@
 
 #' Proyeksi Vektor
 #' @description
-#' Fungsi ini akan melakukan pencarian nilai proyeksi skalar dan proyeksi ortogonal.
+#' Fungsi ini akan melakukan pencarian vektor proyeksi dan proyeksi ortogonal.
 #'
 #' @details
-#' Fungsi ini untuk melakukan pencarian pencarian nilai proyeksi skalar dan proyeksi ortogonal,
+#' Fungsi ini untuk melakukan pencarian pencarian vektor proyeksi dan proyeksi ortogonal,
 #' dimana untuk dua vektor yang tidak berhimpit sehingga salah satu vektor bisa
-#' diproyeksikan ke vektor lainnya.
+#' diproyeksikan ke vektor lainnya. Kemudian juga akan ditampilkan ke dalam
+#' bentuk plot grafik dari vektor proyeksi yang didapatkan.
 #' @examples
 #' a <- c(1,3)
 #' b <- c(6,2)
