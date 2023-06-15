@@ -12,17 +12,18 @@ distance_point_line(point, line)
 \item{line}{vektor dari garis}
 }
 \value{
-Nilai jarak dari 1 titik ke 1 garis
+Plot jarak dari 1 titik ke 1 garis
 }
 \description{
 Fungsi ini akan melakukan pencarian nilai jarak antara 1 titik dan 1 garis,
 }
 \details{
 Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 garis DImana titik
-berada pada 2 dimensi (x,y) dan garis dengan persamaan ax^2 + bx + c = 0 dituliskan
-menjadi bentuk vektor (a,b,c).
+berada pada 2 dimensi (x,y) dan garis dengan persamaan ax + by + c = 0 dituliskan
+menjadi bentuk vektor (a,b,c). Kemudian akan ditampilkan plot untuk jarak antara
+titik dengan garis.
 
-Contoh jika ingin mencari jarak pada titik (1,2) dan persamaan garis 2x^2 + x - 3 = 0, maka untuk garis dituliskan menjadi
+Contoh jika ingin mencari jarak pada titik (1,2) dan persamaan garis 2x + y - 3 = 0, maka untuk garis dituliskan menjadi
 (2,1,-3), maka untuk menggunakan fungsi ini dengan:
 
 point <- c(1,2)

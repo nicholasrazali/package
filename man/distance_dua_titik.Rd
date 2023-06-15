@@ -12,7 +12,7 @@ distance_dua_titik(point1, point2)
 \item{point2}{vektor dari titik kedua}
 }
 \value{
-Nilai jarak dari 2 titik
+Plot jarak dari 2 titik
 }
 \description{
 Fungsi ini akan melakukan pencarian nilai jarak antara 2 titik.
@@ -21,7 +21,8 @@ Fungsi ini akan melakukan pencarian nilai jarak antara 2 titik.
 Fungsi ini untuk melakukan pencarian nilai jarak antara 2 titik, dengan melakukan
 pengurangan terhadap 2 vektor, kemudian hasil pengurangan dipangkatkan 2, dan dijumlahkan
 untuk hasil dari pangkat tersebut. Terakhir untuk mendapatkan nilai jarak dengan
-kuadrat dari hasil tersebut.
+kuadrat dari hasil tersebut. Kemudian akan ditampilkan plot untuk jarak antara
+titik 1 dengan titik 2.
 }
 \examples{
 point1 <- c(1,2,-2)

@@ -5,11 +5,12 @@
 #'
 #' @details
 #' Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 bidang. DImana titik
-#' berada pada 3 dimensi (x,y,z) dan bidang dengan persamaan ax^3 + bx^2 + cx + d = 0 dituliskan
-#' menjadi bentuk vektor (a,b,c,d).
+#' berada pada 3 dimensi (x,y,z) dan bidang dengan persamaan ax + by + cz + d = 0 dituliskan
+#' menjadi bentuk vektor (a,b,c,d). Kemudian akan ditampilkan plot untuk jarak antara
+#' titik dengan bidang.
 #'
 #' #' Contoh jika ingin mencari jarak pada titik (1,-4,-3) dan persamaan bidnag
-#' 2x^3 - 3x^2 + 6x + 1 = 0, maka untuk bidang dituliskan menjadi
+#' 2x - 3y + 6z + 1 = 0, maka untuk bidang dituliskan menjadi
 #' (2,-3,6,1), maka untuk menggunakan fungsi ini dengan:
 #'
 #' point <- c(1,-4,-3)
@@ -23,7 +24,7 @@
 #' distance_point_plane(point,plane)
 #' @param point vektor dari titik
 #' @param plane vektor dari bidang
-#' @return Nilai jarak dari 1 titik ke 1 bidang
+#' @return Plot jarak dari 1 titik ke 1 bidang
 #' @export
 
 distance_point_plane <- function(point, plane){
@@ -62,5 +63,25 @@ distance_point_plane <- function(point, plane){
 
   distance <- atas/bawah
   cat(paste0("\nDistance = ",atas,"/",bawah," = ", distance,"\n"))
-  return(distance)
+
+  x_plane <- seq((x-5), (x+5), by = 0.5)
+  y_plane <- seq((y-5), (y+5), by = 0.5)
+  z_plane <- outer(x_plane, y_plane, FUN = function(x, y) (-a * x - b * y - d) / c)
+
+  p <- plot_ly() %>%
+    add_surface(x = x_plane, y = y_plane, z = z_plane) %>%
+    add_markers(x = x, y = y, z = z, color = I("red"), size = 5) %>%
+    layout(scene = list(
+      xaxis = list(title = "X"),
+      yaxis = list(title = "Y"),
+      zaxis = list(title = "Z")
+    ),
+    annotations = list(
+      x = x, y = y, z = z,
+      text = paste("Distance:", distance),
+      showarrow = FALSE,
+      font = list(color = "red")
+    ))
+
+  return(p)
 }

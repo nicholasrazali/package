@@ -12,18 +12,19 @@ distance_point_plane(point, plane)
 \item{plane}{vektor dari bidang}
 }
 \value{
-Nilai jarak dari 1 titik ke 1 bidang
+Plot jarak dari 1 titik ke 1 bidang
 }
 \description{
 Fungsi ini akan melakukan pencarian nilai jarak antara 1 titik dan 1 bidang,
 }
 \details{
 Fungsi ini untuk melakukan pencarian nilai jarak antara 1 titik dan 1 bidang. DImana titik
-berada pada 3 dimensi (x,y,z) dan bidang dengan persamaan ax^3 + bx^2 + cx + d = 0 dituliskan
-menjadi bentuk vektor (a,b,c,d).
+berada pada 3 dimensi (x,y,z) dan bidang dengan persamaan ax + by + cz + d = 0 dituliskan
+menjadi bentuk vektor (a,b,c,d). Kemudian akan ditampilkan plot untuk jarak antara
+titik dengan bidang.
 
 #' Contoh jika ingin mencari jarak pada titik (1,-4,-3) dan persamaan bidnag
-2x^3 - 3x^2 + 6x + 1 = 0, maka untuk bidang dituliskan menjadi
+2x - 3y + 6z + 1 = 0, maka untuk bidang dituliskan menjadi
 (2,-3,6,1), maka untuk menggunakan fungsi ini dengan:
 
 point <- c(1,-4,-3)
