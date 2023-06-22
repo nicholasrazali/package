@@ -84,6 +84,16 @@ reflection_vector <- function(A, to) {
         x = reflected$x, y = reflected$y,
         line = list(color = "red"),
         name = "Hasil Refleksi"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -100,7 +110,14 @@ reflection_vector <- function(A, to) {
         x = reflected$x, y = reflected$y, z = reflected$z,
         line = list(color = "red"),
         name = "Hasil Refleksi"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
   return(p)

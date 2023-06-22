@@ -80,6 +80,16 @@ projection_vector <- function(A, to){
         x = projected$x, y = projected$y,
         line = list(color = "red"),
         name = "Hasil Proyeksi"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -96,7 +106,13 @@ projection_vector <- function(A, to){
         x = projected$x, y = projected$y, z = projected$z,
         line = list(color = "red"),
         name = "Hasil Proyeksi"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
   }
 
   return(p)

@@ -77,6 +77,16 @@ rotation_vector <- function(A, alfa, axis = NULL){
         x = rotated$x, y = rotated$y,
         line = list(color = "red"),
         name = "Hasil Rotasi"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -93,7 +103,14 @@ rotation_vector <- function(A, alfa, axis = NULL){
         x = rotated$x, y = rotated$y, z = rotated$z,
         line = list(color = "red"),
         name = "Hasil Rotasi"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
   return(p)

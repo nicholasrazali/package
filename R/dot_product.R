@@ -59,6 +59,16 @@ dot_product <- function(u, v){
         x = plot_v$x, y = plot_v$y,
         line = list(color = "red"),
         name = "Vektor v"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   } else {
     p <- plot_ly() %>%
@@ -75,7 +85,14 @@ dot_product <- function(u, v){
         x = plot_v$x, y = plot_v$y, z = plot_v$z,
         line = list(color = "red"),
         name = "Vektor v"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
 

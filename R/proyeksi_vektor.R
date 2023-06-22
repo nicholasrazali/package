@@ -115,6 +115,16 @@ proyeksi_vektor <- function(a, b){
         x = plot_orto$x, y = plot_orto$y,
         line = list(color = "black"),
         name = "Vektor ortogonal"
+      )%>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -145,6 +155,11 @@ proyeksi_vektor <- function(a, b){
         x = plot_orto$x, y = plot_orto$y, z = plot_orto$z,
         line = list(color = "black"),
         name = "Vektor ortogonal"
+      )%>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
 
   }

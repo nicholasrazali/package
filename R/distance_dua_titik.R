@@ -55,22 +55,46 @@ distance_dua_titik <- function(point1, point2){
 
   if(length(point1) == 2){
     p <- plot_ly() %>%
+      add_markers(x = point1[1], y = point1[2], color = I("red"), size = 5, name = "Point 1") %>%
+      add_markers(x = point2[1], y = point2[2], color = I("blue"), size = 5, name = "Point 2") %>%
       add_trace(
         type = "scatter",
         mode = "lines",
+        name = "distance",
         x = c(point1[1], point2[1]),
         y = c(point1[2], point2[2])
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
+
   }
   else{
     p <- plot_ly() %>%
+      add_markers(x = point1[1], y = point1[2], z = point1[3], color = I("red"), size = 5, name = "Point") %>%
+      add_markers(x = point2[1], y = point2[2], z = point2[3], color = I("blue"), size = 5, name = "Point") %>%
       add_trace(
         type = "scatter3d",
         mode = "lines",
+        name = "distance",
         x = c(point1[1], point2[1]),
         y = c(point1[2], point2[2]),
         z = c(point1[3], point2[3])
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
 

@@ -49,7 +49,14 @@ cross_product <- function(u, v) {
         x = plot_cross$x, y = plot_cross$y, z = plot_cross$z,
         line = list(color = "green"),
         name = "Vektor cross"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
 
   return(p)
 }

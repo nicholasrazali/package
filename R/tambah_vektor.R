@@ -65,7 +65,17 @@ tambah_vektor <- function(u, v){
         mode = "lines",
         x = plot_uv$x, y = plot_uv$y,
         line = list(color = "green"),
-        name = "Vektor uv"
+        name = "Vektor u+v"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -88,8 +98,15 @@ tambah_vektor <- function(u, v){
         mode = "lines",
         x = plot_uv$x, y = plot_uv$y, z = plot_uv$z,
         line = list(color = "green"),
-        name = "Vektor uv"
+        name = "Vektor u+v"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
   return(p)

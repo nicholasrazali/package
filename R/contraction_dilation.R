@@ -57,6 +57,16 @@ contraction_dilatation <- function(A, k){
         x = transformed$x, y = transformed$y,
         line = list(color = "red",width = width_trans),
         name = "Hasil Transformasi"
+      ) %>%
+      layout(
+        xaxis = list(
+          scaleanchor = "y",
+          scaleratio = 1
+        ),
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
   }else{
     p <- plot_ly() %>%
@@ -73,7 +83,14 @@ contraction_dilatation <- function(A, k){
         x = transformed$x, y = transformed$y, z = transformed$z,
         line = list(color = "red",width = width_trans),
         name = "Hasil Transformasi"
+      ) %>%
+      layout(
+        scene = list(
+          aspectmode = "data"
+        )
       )
+
+
   }
 
   return(p)
