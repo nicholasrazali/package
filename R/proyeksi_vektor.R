@@ -38,7 +38,7 @@ proyeksi_vektor <- function(a, b){
   cat(paste0("\nskalar = ",ab,"/",norm_b," = ", skalar, "\n"))
 
   proyeksi = ab/norm_b2  * b
-  cat(paste0("\nproyeksi = (",ab,"/",norm_b, ") * (",b[1]))
+  cat(paste0("\nproyeksi = (",ab,"/",norm_b2, ") * (",b[1]))
   for(i in 2:length(b)){
     cat(paste0(", ",b[i]))
   }
